@@ -27,29 +27,29 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 
 void main()async {
     WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey: "AIzaSyAXD5J1f3x90B1_AVE4XMB0hTN3lg758Tw",
-          appId: "1:90122166091:android:9234491cb13dd1fd6592ce",
-          messagingSenderId: "90122166091",
-          storageBucket: "ecom-b41a3.appspot.com",
-          projectId: "ecom-b41a3"));
+  // await Firebase.initializeApp(
+  //     options: const FirebaseOptions(
+  //         apiKey: "",
+  //         appId: "",
+  //         messagingSenderId: "",
+  //         storageBucket: "",
+  //         projectId: ""));
 
-       FirebaseMessaging.onBackgroundMessage(_firebaseMessengingHandle);
-  await FirebaseMessaging.instance.subscribeToTopic("all");
+  //      FirebaseMessaging.onBackgroundMessage(_firebaseMessengingHandle);
+  // await FirebaseMessaging.instance.subscribeToTopic("all");
 
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-    // print("------------------${message.data}");
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
-    await NotificationService.initialize();
-    NotificationService.showNotification(message);
-  });
+  // FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+  //   // print("------------------${message.data}");
+  //   await flutterLocalNotificationsPlugin
+  //       .resolvePlatformSpecificImplementation<
+  //           AndroidFlutterLocalNotificationsPlugin>()
+  //       ?.createNotificationChannel(channel);
+  //   await NotificationService.initialize();
+  //   NotificationService.showNotification(message);
+  // });
 
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-      alert: true, badge: true, sound: true);
+  //   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  //     alert: true, badge: true, sound: true);
 
   runApp(const MyApp());
 }
