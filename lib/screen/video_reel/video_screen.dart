@@ -16,10 +16,7 @@ class _VideoReelsScreenState extends State<VideoReelsScreen> {
         itemCount: 5,
         scrollDirection: Axis.vertical,
         itemBuilder: (context, index) {
-          return Container(
-            // color: index % 2 == 0 ? mendicolor : greenColor,
-            child: const VideoShowScreen(),
-          );
+          return const VideoShowScreen();
         },
       ),
     );

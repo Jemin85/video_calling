@@ -6,6 +6,8 @@ class Routes {
   static const indroduction = _Paths.indroduction;
   static const homeScreen = _Paths.homeScreen;
   static const showchat = _Paths.showchat;
+  static const userScreen = _Paths.userScreen;
+  static const login = _Paths.login;
 }
 
 abstract class _Paths {
@@ -14,4 +16,6 @@ abstract class _Paths {
   static const indroduction = "/indroduction";
   static const homeScreen = "/homeScreen";
   static const showchat = "/showchat";
+  static const userScreen = "/userScreen";
+  static const login = "/login";
 }

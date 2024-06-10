@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'routes/app_pages.dart';
 
-Future<void> _firebaseMessengingHandle(RemoteMessage message) async {
+Future<void> firebaseMessengingHandle(RemoteMessage message) async {
   await FirebaseMessaging.instance.subscribeToTopic("all");
   await Firebase.initializeApp();
   // print("------------------${message.data}");
@@ -27,13 +26,12 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 
 void main()async {
     WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //     options: const FirebaseOptions(
-  //         apiKey: "",
-  //         appId: "",
-  //         messagingSenderId: "",
-  //         storageBucket: "",
-  //         projectId: ""));
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyA6Vvp9xLqCe8EUNWUkBISFaj4WvrArStA",
+          appId: "1:57502866661:android:2472344ce17ee3ef9bc80c",
+          messagingSenderId: "57502866661",
+          projectId: "videocall-53a52"));
 
   //      FirebaseMessaging.onBackgroundMessage(_firebaseMessengingHandle);
   // await FirebaseMessaging.instance.subscribeToTopic("all");
@@ -87,6 +85,7 @@ class MyApp extends StatelessWidget {
         //             ? AppPages.login
         //             : AppPages.indroduction,
         initialRoute: AppPages.homeScreen,
+        // home: const TestingScreen(),
         getPages: AppPages.routes,
       ),
     );

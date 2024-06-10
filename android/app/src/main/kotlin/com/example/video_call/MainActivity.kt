@@ -1,4 +1,4 @@
-package com.example.video_call
+package com.video.callApp
 
 import io.flutter.embedding.android.FlutterActivity
 
