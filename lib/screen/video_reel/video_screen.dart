@@ -35,10 +35,13 @@ class _VideoShowScreenState extends State<VideoShowScreen> {
 
   @override
   void initState() {
-    _controller = VideoPlayerController.networkUrl(Uri.parse(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'))
+    _controller = VideoPlayerController.networkUrl(
+        Uri.parse(
+            'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'),
+        videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: false))
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        _controller.play();
         setState(() {});
       });
     super.initState();
@@ -54,5 +57,11 @@ class _VideoShowScreenState extends State<VideoShowScreen> {
             )
           : Container(),
     );
+  }
+
+  @override
+  void dispose() {
+  _controller.dispose();
+    super.dispose();
   }
 }

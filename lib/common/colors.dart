@@ -15,13 +15,16 @@ class CustomText extends StatelessWidget {
   final int? maxline;
   final double? fontSize;
   final TextAlign? align;
+  final TextDecoration? decoration;
   const CustomText(
       {super.key,
       required this.text,
       this.color,
       this.weight,
       this.fontSize,
-      this.align, this.maxline});
+      this.align,
+      this.maxline,
+      this.decoration});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,7 @@ class CustomText extends StatelessWidget {
         textAlign: align,
         maxLines: maxline,
         style: GoogleFonts.urbanist(
-            
+            decoration: decoration,
             color: color ?? black,
             fontWeight: weight ?? FontWeight.w400,
             fontSize: fontSize ?? 16.sp));

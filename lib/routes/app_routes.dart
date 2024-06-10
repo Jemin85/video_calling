@@ -8,6 +8,7 @@ class Routes {
   static const showchat = _Paths.showchat;
   static const userScreen = _Paths.userScreen;
   static const login = _Paths.login;
+  static const vipScreen = _Paths.vipScreen;
 }
 
 abstract class _Paths {
@@ -18,4 +19,5 @@ abstract class _Paths {
   static const showchat = "/showchat";
   static const userScreen = "/userScreen";
   static const login = "/login";
+  static const vipScreen = "/vipScreen";
 }

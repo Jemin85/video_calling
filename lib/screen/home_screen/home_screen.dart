@@ -32,16 +32,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Obx(
       () {
         return Scaffold(
-          extendBodyBehindAppBar:
-              homeController.currantIndex.value == 3 ? false : true,
-          backgroundColor: white,
+          backgroundColor: yellowOpacity,
           appBar: homeController.currantIndex.value == 1 ||
                   homeController.currantIndex.value == 3
               ? null
               : AppBar(
                   surfaceTintColor: Colors.transparent,
                   toolbarHeight: 80,
-                  backgroundColor: white,
+                  backgroundColor: yellowOpacity,
                   bottom: PreferredSize(
                     preferredSize: const Size.fromHeight(1),
                     child: Container(
@@ -50,8 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-          bottomNavigationBar: SizedBox(
+          bottomNavigationBar: Container(
             height: 80,
+            color: white,
             child: Row(
               children: List.generate(
                 bottom.length,
@@ -62,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         homeController.changeIndex(index);
                       },
                       child: Container(
-                        color: white,
+                        color: Colors.transparent,
                         child: Icon(
                           bottom[index],
                           size: 30,
