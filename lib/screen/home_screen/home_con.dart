@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -5,5 +6,9 @@ class HomeController extends GetxController {
 
   changeIndex(int index) {
     currantIndex.value = index;
+  }
+
+  bool userLogin() {
+    return FirebaseAuth.instance.currentUser!.email != null;
   }
 }

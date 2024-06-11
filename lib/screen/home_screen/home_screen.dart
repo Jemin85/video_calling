@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:video_call/routes/app_pages.dart';
 import 'package:video_call/screen/home_screen/home_con.dart';
 import 'package:video_call/screen/profile/profile_screen.dart';
 import 'package:video_call/screen/video_reel/video_screen.dart';
@@ -147,57 +148,62 @@ class ViewData extends StatefulWidget {
 class _ViewDataState extends State<ViewData> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            height: 180,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              // image: DecorationImage(
-              //     image: NetworkImage("${object["photo"]}"), fit: BoxFit.cover),
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(AppPages.userScreen);
+      },
+      child: Card(
+        elevation: 2,
+        color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              height: 180,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                // image: DecorationImage(
+                //     image: NetworkImage("${object["photo"]}"), fit: BoxFit.cover),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, top: 10),
-            child: CustomText(
-              text: "Sunny",
-              maxline: 1,
-              fontSize: 13.sp,
-              weight: FontWeight.w700,
-              color: Colors.black,
+            Padding(
+              padding: const EdgeInsets.only(left: 15, top: 10),
+              child: CustomText(
+                text: "Sunny",
+                maxline: 1,
+                fontSize: 13.sp,
+                weight: FontWeight.w700,
+                color: Colors.black,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10, left: 15, right: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomText(
-                  text: "₹ 152",
-                  fontSize: 12.sp,
-                  weight: FontWeight.w700,
-                  align: TextAlign.center,
-                  color: Colors.black,
-                ),
-                Row(
-                  children: List.generate(
-                    5,
-                    (index) => Icon(
-                      index > 3 ? Icons.star_border : Icons.star,
-                      size: 12,
-                      color: Colors.amber,
-                    ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10, left: 15, right: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomText(
+                    text: "₹ 152",
+                    fontSize: 12.sp,
+                    weight: FontWeight.w700,
+                    align: TextAlign.center,
+                    color: Colors.black,
                   ),
-                )
-              ],
+                  Row(
+                    children: List.generate(
+                      5,
+                      (index) => Icon(
+                        index > 3 ? Icons.star_border : Icons.star,
+                        size: 12,
+                        color: Colors.amber,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

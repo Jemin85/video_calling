@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:video_call/common/colors.dart';
 
 class VIPScreen extends StatefulWidget {
@@ -47,7 +48,9 @@ class _VIPScreenState extends State<VIPScreen> {
         surfaceTintColor: Colors.transparent,
         toolbarHeight: 70,
         leading: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Get.back();
+            },
             child: const Icon(
               Icons.arrow_back_ios,
               color: black,
@@ -116,10 +119,16 @@ class _VIPScreenState extends State<VIPScreen> {
                               member[index]["icon"],
                               color: white,
                             ),
-                            
                           ),
-                          title: CustomText(text: "${member[index]["title"]}",weight: FontWeight.w600,),
-                          subtitle: CustomText(text: "${member[index]["value"]}",fontSize: 12.sp,color: black.withOpacity(0.5),),
+                          title: CustomText(
+                            text: "${member[index]["title"]}",
+                            weight: FontWeight.w600,
+                          ),
+                          subtitle: CustomText(
+                            text: "${member[index]["value"]}",
+                            fontSize: 12.sp,
+                            color: black.withOpacity(0.5),
+                          ),
                         ),
                       );
                     },

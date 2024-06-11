@@ -9,6 +9,11 @@ class Routes {
   static const userScreen = _Paths.userScreen;
   static const login = _Paths.login;
   static const vipScreen = _Paths.vipScreen;
+  static const diamond = _Paths.diamond;
+  static const videoReels = _Paths.videoReels;
+  static const userChat = _Paths.userChat;
+  static const profile = _Paths.profile;
+  static const mainHome = _Paths.mainHome;
 }
 
 abstract class _Paths {
@@ -20,4 +25,9 @@ abstract class _Paths {
   static const userScreen = "/userScreen";
   static const login = "/login";
   static const vipScreen = "/vipScreen";
+  static const diamond = "/diamond";
+  static const videoReels = "/videoReels";
+  static const userChat = "/userChat";
+  static const profile = "/profile";
+  static const mainHome = "/mainHome";
 }

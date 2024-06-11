@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:video_call/screen/home_screen/main_home.dart';
 import 'routes/app_pages.dart';
 
 Future<void> firebaseMessengingHandle(RemoteMessage message) async {
@@ -24,8 +26,8 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
     importance: Importance.high,
     playSound: true);
 
-void main()async {
-    WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
           apiKey: "AIzaSyA6Vvp9xLqCe8EUNWUkBISFaj4WvrArStA",
@@ -48,13 +50,13 @@ void main()async {
 
   //   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
   //     alert: true, badge: true, sound: true);
-
-  runApp(const MyApp());
+  bool userlogin = FirebaseAuth.instance.currentUser!.email != null;
+  runApp(MyApp(usetLogin: userlogin));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  final bool usetLogin;
+  const MyApp({super.key, required this.usetLogin});
 
   @override
   Widget build(BuildContext context) {
@@ -78,20 +80,19 @@ class MyApp extends StatelessWidget {
           fontFamily: 'google_sans',
         ),
         // home: const IntroductionScreen(),
-        // initialRoute: // userlogin && user != null ?AppPages.adHomeScreen   : AppPages.adminLogin,
+        // initialRoute: // userlogin && user != null ? AppPages.adHomeScreen   : AppPages.adminLogin,
         //     userlogin && user != null
         //         ? AppPages.homeScreen
         //         : intro
         //             ? AppPages.login
         //             : AppPages.indroduction,
-        initialRoute: AppPages.homeScreen,
-        // home: const TestingScreen(),
+        // initialRoute: usetLogin ? AppPages.homeScreen : AppPages.login,
+        home: const MainHomeScreen(),
         getPages: AppPages.routes,
       ),
     );
   }
 }
-
 
 class MyBehavior extends ScrollBehavior {
   @override

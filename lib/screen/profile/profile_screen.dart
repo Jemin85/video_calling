@@ -1,8 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:video_call/routes/app_pages.dart';
-
+import 'package:video_call/screen/home_screen/home_con.dart';
 import '../../common/colors.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -13,6 +14,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  HomeController homeController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,7 +36,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 bottom: -45,
                 child: GestureDetector(
                   onTap: () {
-                    // Get.toNamed(AppPages.EditProfile);
+                    if (!homeController.userLogin()) {
+                      Get.offAllNamed(AppPages.login);
+                    }
                   },
                   child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -59,12 +63,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           backgroundImage: NetworkImage(
                               "https://cdn-icons-png.flaticon.com/512/219/219983.png"),
                         ),
-                        title: const CustomText(
-                          text: "${"-"}",
+                        title: CustomText(
+                          text: homeController.userLogin()
+                              ? "${"-"}"
+                              : "Login with Google",
                           weight: FontWeight.w600,
                         ),
                         subtitle: CustomText(
-                            text: "${"-"}",
+                            text: homeController.userLogin()
+                                ? "${FirebaseAuth.instance.currentUser!.email}"
+                                : "-",
                             weight: FontWeight.w400,
                             fontSize: 14.sp),
                       )),
@@ -74,36 +82,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         const SizedBox(height: 80),
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: () {},
-                child: commanTile(
-                    icon: Icons.wb_incandescent_rounded, title: "VIP"),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: commanTile(
-                    icon: Icons.diamond, title: "Diamond"),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: commanTile(
-                    icon: Icons.card_giftcard, title: "My Present"),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: commanTile(
-                    icon: Icons.settings, title: "Settings"),
-              ),
+        Expanded(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
                 GestureDetector(
-                onTap: () {},
-                child: commanTile(
-                    icon: Icons.logout, title: "Logout"),
-              ),
-            ],
+                  onTap: () {
+                    Get.toNamed(AppPages.vipScreen);
+                  },
+                  child: commanTile(
+                      icon: Icons.wb_incandescent_rounded, title: "VIP"),
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: commanTile(icon: Icons.diamond, title: "Diamond"),
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: commanTile(
+                      icon: Icons.card_giftcard, title: "My Present"),
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: commanTile(icon: Icons.settings, title: "Settings"),
+                ),
+                if (homeController.userLogin())
+                  GestureDetector(
+                    onTap: () {
+                      FirebaseAuth.instance.signOut();
+                      Get.offAllNamed(AppPages.login);
+                    },
+                    child: commanTile(icon: Icons.logout, title: "Logout"),
+                  ),
+              ],
+            ),
           ),
         )
       ],

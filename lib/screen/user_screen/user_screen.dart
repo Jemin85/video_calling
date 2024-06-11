@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:video_call/common/colors.dart';
 import 'package:video_call/routes/app_pages.dart';
+
 class UserScreen extends StatefulWidget {
   const UserScreen({super.key});
 
@@ -11,13 +12,21 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
-
-  
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: yellowOpacity,
+      appBar: AppBar(
+        toolbarHeight: 80,
+        leading: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: const Icon(Icons.arrow_back_ios_new)),
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(15),
@@ -25,7 +34,9 @@ class _UserScreenState extends State<UserScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(AppPages.vipScreen);
+              },
               backgroundColor: greenColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
@@ -73,9 +84,6 @@ class _UserScreenState extends State<UserScreen> {
       ),
     );
   }
-
-
-
 }
 
 class InApp extends StatelessWidget {
