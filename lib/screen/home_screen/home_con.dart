@@ -9,6 +9,6 @@ class HomeController extends GetxController {
   }
 
   bool userLogin() {
-    return FirebaseAuth.instance.currentUser!.email != null;
+    return FirebaseAuth.instance.currentUser != null;
   }
 }

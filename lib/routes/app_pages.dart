@@ -10,6 +10,7 @@ import 'package:video_call/screen/video_reel/video_screen.dart';
 import '../screen/chat_screen/show_chat.dart';
 import '../screen/chat_screen/user_show_scree.dart';
 import '../screen/home_screen/home_screen.dart';
+import '../screen/visitor/visitor_screen.dart';
 
 part 'app_routes.dart';
 
@@ -26,6 +27,8 @@ class AppPages {
   static const videoReels = Routes.videoReels;
   static const userChat = Routes.userChat;
   static const mainHome = Routes.mainHome;
+  static const profile = Routes.profile;
+  static const visitor = Routes.visitor;
 
   static final routes = [
     GetPage(name: _Paths.homeScreen, page: () => const HomeScreen()),
@@ -37,6 +40,8 @@ class AppPages {
     GetPage(name: _Paths.videoReels, page: () => const VideoReelsScreen()),
     GetPage(name: _Paths.userChat, page: () => const UserShowScreen()),
     GetPage(name: _Paths.profile, page: () => const ProfileScreen()),
-    GetPage(name: _Paths.mainHome, page: () => const MainHomeScreen())
+    GetPage(name: _Paths.mainHome, page: () => const MainHomeScreen()),
+    GetPage(name: _Paths.visitor, page: () => const VisitorScreem()),
+
   ];
 }

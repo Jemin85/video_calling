@@ -17,8 +17,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  HomeController homeController = Get.put(HomeController());
-  List bottom = [Icons.home, Icons.video_call, Icons.chat, Icons.person];
+  HomeController homeController = Get.find();
+  // List bottom = [Icons.home, Icons.video_call, Icons.chat, Icons.person];
   int indexs = 15;
 
   List pages = [
@@ -49,34 +49,34 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-          bottomNavigationBar: Container(
-            height: 80,
-            color: white,
-            child: Row(
-              children: List.generate(
-                bottom.length,
-                (index) {
-                  return Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        homeController.changeIndex(index);
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Icon(
-                          bottom[index],
-                          size: 30,
-                          color: homeController.currantIndex.value == index
-                              ? greenColor
-                              : black,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
+          // bottomNavigationBar: Container(
+          //   height: 80,
+          //   color: white,
+          //   child: Row(
+          //     children: List.generate(
+          //       bottom.length,
+          //       (index) {
+          //         return Expanded(
+          //           child: GestureDetector(
+          //             onTap: () {
+          //               homeController.changeIndex(index);
+          //             },
+          //             child: Container(
+          //               color: Colors.transparent,
+          //               child: Icon(
+          //                 bottom[index],
+          //                 size: 30,
+          //                 color: homeController.currantIndex.value == index
+          //                     ? greenColor
+          //                     : black,
+          //               ),
+          //             ),
+          //           ),
+          //         );
+          //       },
+          //     ),
+          //   ),
+          // ),
           body: homeController.currantIndex.value != 0
               ? pages[homeController.currantIndex.value]
               : ListView.builder(

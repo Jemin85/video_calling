@@ -50,7 +50,7 @@ void main() async {
 
   //   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
   //     alert: true, badge: true, sound: true);
-  bool userlogin = FirebaseAuth.instance.currentUser!.email != null;
+  bool userlogin = FirebaseAuth.instance.currentUser != null;
   runApp(MyApp(usetLogin: userlogin));
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:video_call/common/colors.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoReelsScreen extends StatefulWidget {
@@ -11,13 +12,16 @@ class VideoReelsScreen extends StatefulWidget {
 class _VideoReelsScreenState extends State<VideoReelsScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: PageView.builder(
-        itemCount: 5,
-        scrollDirection: Axis.vertical,
-        itemBuilder: (context, index) {
-          return const VideoShowScreen();
-        },
+    return Scaffold(
+      backgroundColor: black,
+      body: SafeArea(
+        child: PageView.builder(
+          itemCount: 5,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, index) {
+            return const VideoShowScreen();
+          },
+        ),
       ),
     );
   }

@@ -14,6 +14,7 @@ class Routes {
   static const userChat = _Paths.userChat;
   static const profile = _Paths.profile;
   static const mainHome = _Paths.mainHome;
+  static const visitor = _Paths.visitor;
 }
 
 abstract class _Paths {
@@ -30,4 +31,5 @@ abstract class _Paths {
   static const userChat = "/userChat";
   static const profile = "/profile";
   static const mainHome = "/mainHome";
+  static const visitor = "/visitor";
 }

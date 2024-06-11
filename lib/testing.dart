@@ -13,8 +13,7 @@ class TestingScreen extends StatefulWidget {
 class _TestingScreenState extends State<TestingScreen> {
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   final List<String> _productIds = [
-    'com.petaverse.petography.completeedition',
-    'com.petaverse.petography.removeads'
+    'android.test.purchased',
   ];
   late StreamSubscription<List<PurchaseDetails>> _subscription;
   List<ProductDetails> _products = [];
@@ -36,6 +35,7 @@ class _TestingScreenState extends State<TestingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("-----------------${_products}");
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () {
         dddd();
