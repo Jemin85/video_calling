@@ -18,7 +18,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: yellowOpacity,
+     
       body: Container(
         padding: const EdgeInsets.all(20),
         child: Column(

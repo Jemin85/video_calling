@@ -19,6 +19,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: yellowOpacity,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+      ),
       body: Column(
         children: [
           SizedBox(
@@ -83,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 80),
+          const SizedBox(height: 50),
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(15),
