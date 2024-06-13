@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:video_call/screen/home_screen/main_home.dart';
 import 'Adhelper/ad_config.dart';
 import 'Adhelper/ad_helper.dart';
 import 'routes/app_pages.dart';
@@ -59,15 +57,14 @@ void main() async {
   if (!Config.hideAds) {
     AdHelper.loadAppOpenAd();
   }
-  AdHelper.precacheInterstitialAd();
-  AdHelper.precacheNativeAd();
-  bool userlogin = FirebaseAuth.instance.currentUser != null;
-  runApp(MyApp(usetLogin: userlogin));
+
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final bool usetLogin;
-  const MyApp({super.key, required this.usetLogin});
+  
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +95,7 @@ class MyApp extends StatelessWidget {
         //             ? AppPages.login
         //             : AppPages.indroduction,
         // initialRoute: usetLogin ? AppPages.homeScreen : AppPages.login,
-        home: const MainHomeScreen(),
+        initialRoute: AppPages.splash,
         getPages: AppPages.routes,
       ),
     );

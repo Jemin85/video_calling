@@ -15,6 +15,7 @@ class Routes {
   static const profile = _Paths.profile;
   static const mainHome = _Paths.mainHome;
   static const visitor = _Paths.visitor;
+  static const splash = _Paths.splash;
 }
 
 abstract class _Paths {
@@ -32,4 +33,5 @@ abstract class _Paths {
   static const profile = "/profile";
   static const mainHome = "/mainHome";
   static const visitor = "/visitor";
+  static const splash = "/splash";
 }

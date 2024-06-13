@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:video_call/screen/diamond/diamond_screen.dart';
 import 'package:video_call/screen/home_screen/main_home.dart';
+import 'package:video_call/screen/introduction/splash_screen.dart';
 import 'package:video_call/screen/login/login_screen.dart';
 import 'package:video_call/screen/profile/profile_screen.dart';
 import 'package:video_call/screen/user_screen/user_screen.dart';
@@ -29,6 +30,7 @@ class AppPages {
   static const mainHome = Routes.mainHome;
   static const profile = Routes.profile;
   static const visitor = Routes.visitor;
+  static const splash = Routes.splash;
 
   static final routes = [
     GetPage(name: _Paths.homeScreen, page: () => const HomeScreen()),
@@ -42,6 +44,7 @@ class AppPages {
     GetPage(name: _Paths.profile, page: () => const ProfileScreen()),
     GetPage(name: _Paths.mainHome, page: () => const MainHomeScreen()),
     GetPage(name: _Paths.visitor, page: () => const VisitorScreem()),
+    GetPage(name: _Paths.splash, page: () => const SplashScreen())
 
   ];
 }
