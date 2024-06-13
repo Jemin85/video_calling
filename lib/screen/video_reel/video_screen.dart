@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:video_call/common/colors.dart';
 import 'package:video_player/video_player.dart';
+
+import '../../Adhelper/ad_config.dart';
+import '../../Adhelper/ad_helper.dart';
 
 class VideoReelsScreen extends StatefulWidget {
   const VideoReelsScreen({super.key});
@@ -9,18 +13,51 @@ class VideoReelsScreen extends StatefulWidget {
   State<VideoReelsScreen> createState() => _VideoReelsScreenState();
 }
 
-class _VideoReelsScreenState extends State<VideoReelsScreen> {
+class _VideoReelsScreenState extends State<VideoReelsScreen>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  bool showAds = false;
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.hidden ||
+        state == AppLifecycleState.paused) {
+      setState(() {
+        showAds = true;
+      });
+    } else if (state == AppLifecycleState.inactive && showAds) {
+      if (!Config.hideAds) {
+        AdHelper.loadAppOpenAd();
+        setState(() {
+          showAds = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: black,
-      body: SafeArea(
-        child: PageView.builder(
-          itemCount: 5,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, index) {
-            return const VideoShowScreen();
-          },
+    return WillPopScope(
+      onWillPop: () async {
+        AdHelper.showInterstitialAd(onComplete: () {
+          Get.back();
+        });
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: black,
+        body: SafeArea(
+          child: PageView.builder(
+            itemCount: 5,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (context, index) {
+              return const VideoShowScreen();
+            },
+          ),
         ),
       ),
     );
@@ -65,7 +102,7 @@ class _VideoShowScreenState extends State<VideoShowScreen> {
 
   @override
   void dispose() {
-  _controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 }

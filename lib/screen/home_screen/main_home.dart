@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:video_call/Adhelper/ad_helper.dart';
 import 'package:video_call/common/colors.dart';
 import 'package:video_call/routes/app_pages.dart';
 import 'package:video_call/screen/home_screen/home_con.dart';
+
+import '../../Adhelper/ad_config.dart';
 
 class MainHomeScreen extends StatefulWidget {
   const MainHomeScreen({super.key});
@@ -12,14 +15,38 @@ class MainHomeScreen extends StatefulWidget {
   State<MainHomeScreen> createState() => _MainHomeScreenState();
 }
 
-class _MainHomeScreenState extends State<MainHomeScreen> {
+class _MainHomeScreenState extends State<MainHomeScreen>
+    with WidgetsBindingObserver  {
   HomeController homeController = Get.put(HomeController());
+
+    @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  bool showAds = false;
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.hidden ||
+        state == AppLifecycleState.paused) {
+      setState(() {
+        showAds = true;
+      });
+    } else if (state == AppLifecycleState.inactive && showAds) {
+      if (!Config.hideAds) {
+        AdHelper.loadAppOpenAd();
+        setState(() {
+          showAds = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: yellowOpacity,
-     
       body: Container(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -30,8 +57,10 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: (){
-                      Get.toNamed(AppPages.homeScreen);
+                    onTap: () {
+                      AdHelper.showInterstitialAd(onComplete: () {
+                        Get.toNamed(AppPages.homeScreen);
+                      });
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 40),
@@ -51,8 +80,10 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                 const SizedBox(width: 15),
                 Expanded(
                   child: GestureDetector(
-                    onTap: (){
-                      Get.toNamed(AppPages.videoReels);
+                    onTap: () {
+                      AdHelper.showInterstitialAd(onComplete: () {
+                        Get.toNamed(AppPages.videoReels);
+                      });
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -73,8 +104,10 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
             ),
             const SizedBox(height: 15),
             GestureDetector(
-              onTap: (){
-                Get.toNamed(AppPages.userChat);
+              onTap: () {
+                AdHelper.showInterstitialAd(onComplete: () {
+                  Get.toNamed(AppPages.userChat);
+                });
               },
               child: Container(
                 alignment: Alignment.center,
@@ -89,10 +122,12 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                 ),
               ),
             ),
-             const SizedBox(height: 15),
+            const SizedBox(height: 15),
             GestureDetector(
-              onTap: (){
-                Get.toNamed(AppPages.profile);
+              onTap: () {
+                AdHelper.showInterstitialAd(onComplete: () {
+                  Get.toNamed(AppPages.profile);
+                });
               },
               child: Container(
                 alignment: Alignment.center,

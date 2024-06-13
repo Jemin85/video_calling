@@ -6,6 +6,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:video_call/screen/home_screen/main_home.dart';
+import 'Adhelper/ad_config.dart';
+import 'Adhelper/ad_helper.dart';
 import 'routes/app_pages.dart';
 
 Future<void> firebaseMessengingHandle(RemoteMessage message) async {
@@ -35,6 +37,9 @@ void main() async {
           messagingSenderId: "57502866661",
           projectId: "videocall-53a52"));
 
+  AdHelper.initAds();
+  Config.initConfig();
+
   //      FirebaseMessaging.onBackgroundMessage(_firebaseMessengingHandle);
   // await FirebaseMessaging.instance.subscribeToTopic("all");
 
@@ -50,6 +55,10 @@ void main() async {
 
   //   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
   //     alert: true, badge: true, sound: true);
+
+  if (!Config.hideAds) {
+    AdHelper.loadAppOpenAd();
+  }
   bool userlogin = FirebaseAuth.instance.currentUser != null;
   runApp(MyApp(usetLogin: userlogin));
 }

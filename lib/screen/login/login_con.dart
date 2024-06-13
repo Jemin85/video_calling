@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../Adhelper/ad_helper.dart';
 import '../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
@@ -41,9 +42,9 @@ class LoginController extends GetxController {
                 data.docs[0].data()["lastClickTimestamp"] ?? 0);
           }
         }
-        // AdHelper.showInterstitialAd(onComplete: () {
+        AdHelper.showInterstitialAd(onComplete: () {
         Get.toNamed(AppPages.homeScreen);
-        // });
+        });
         isload(false);
       } else {
         isload(false);

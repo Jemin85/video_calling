@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:video_call/Adhelper/ad_config.dart';
 import 'package:video_call/common/colors.dart';
+
+import '../../Adhelper/ad_helper.dart';
 
 class VIPScreen extends StatefulWidget {
   const VIPScreen({super.key});
@@ -10,7 +13,7 @@ class VIPScreen extends StatefulWidget {
   State<VIPScreen> createState() => _VIPScreenState();
 }
 
-class _VIPScreenState extends State<VIPScreen> {
+class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver  {
   List member = [
     {
       "title": "Unlock chat restrictions",
@@ -39,103 +42,146 @@ class _VIPScreenState extends State<VIPScreen> {
     },
   ];
 
+    @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  bool showAds = false;
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.hidden ||
+        state == AppLifecycleState.paused) {
+      setState(() {
+        showAds = true;
+      });
+    } else if (state == AppLifecycleState.inactive && showAds) {
+      if (!Config.hideAds) {
+        AdHelper.loadAppOpenAd();
+        setState(() {
+          showAds = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: yellowOpacity,
-      appBar: AppBar(
+    return WillPopScope(
+      onWillPop: () async {
+        AdHelper.showInterstitialAd(onComplete: () {
+          Get.back();
+        });
+        return true;
+      },
+      child: Scaffold(
         backgroundColor: yellowOpacity,
-        surfaceTintColor: Colors.transparent,
-        toolbarHeight: 70,
-        leading: GestureDetector(
-            onTap: () {
-              Get.back();
-            },
-            child: const Icon(
-              Icons.arrow_back_ios,
-              color: black,
-            )),
-        title: const CustomText(
-          text: "VIP",
-          color: black,
-          weight: FontWeight.w700,
+        appBar: AppBar(
+          backgroundColor: yellowOpacity,
+          surfaceTintColor: Colors.transparent,
+          toolbarHeight: 70,
+          leading: GestureDetector(
+              onTap: () {
+                AdHelper.showInterstitialAd(onComplete: () {
+                  Get.back();
+                });
+              },
+              child: const Icon(
+                Icons.arrow_back_ios,
+                color: black,
+              )),
+          title: const CustomText(
+            text: "VIP",
+            color: black,
+            weight: FontWeight.w700,
+          ),
         ),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(15),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 150,
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                color: greenColor,
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: listTimeshow(
-                    title: "VIP 1 month",
-                    subtitle: "Rs. 149 one month",
-                    trailing: "RS.99 Only"),
-              ),
-              const SizedBox(height: 10),
-              GestureDetector(
-                onTap: () {},
-                child: listTimeshow(
-                    title: "VIP 6 Month",
-                    subtitle: "Rs. 799 six month",
-                    trailing: "RS.499 Only"),
-              ),
-              const SizedBox(height: 10),
-              GestureDetector(
-                onTap: () {},
-                child: listTimeshow(
-                    title: "VIP 1 Year",
-                    subtitle: "Rs. 1299 one year",
-                    trailing: "RS.999 Only"),
-              ),
-              const SizedBox(height: 20),
-              CustomText(
-                text: "Member Privieges",
-                weight: FontWeight.w600,
-                fontSize: 18.sp,
-              ),
-              const SizedBox(height: 10),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Column(
-                  children: List.generate(
-                    member.length,
-                    (index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: CircleAvatar(
-                            radius: 30,
-                            backgroundColor: greenColor,
-                            child: Icon(
-                              member[index]["icon"],
-                              color: white,
+        body: Container(
+          padding: const EdgeInsets.all(15),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 150,
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  color: greenColor,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    AdHelper.showInterstitialAd(onComplete: () {});
+                  },
+                  child: listTimeshow(
+                      title: "VIP 1 month",
+                      subtitle: "Rs. 149 one month",
+                      trailing: "RS.99 Only"),
+                ),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    AdHelper.showInterstitialAd(onComplete: () {});
+
+                  },
+                  
+                  child: listTimeshow(
+                      title: "VIP 6 Month",
+                      subtitle: "Rs. 799 six month",
+                      trailing: "RS.499 Only"),
+                ),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    AdHelper.showInterstitialAd(onComplete: () {});
+
+                  },
+                  child: listTimeshow(
+                      title: "VIP 1 Year",
+                      subtitle: "Rs. 1299 one year",
+                      trailing: "RS.999 Only"),
+                ),
+                const SizedBox(height: 20),
+                CustomText(
+                  text: "Member Privieges",
+                  weight: FontWeight.w600,
+                  fontSize: 18.sp,
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Column(
+                    children: List.generate(
+                      member.length,
+                      (index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: CircleAvatar(
+                              radius: 30,
+                              backgroundColor: greenColor,
+                              child: Icon(
+                                member[index]["icon"],
+                                color: white,
+                              ),
+                            ),
+                            title: CustomText(
+                              text: "${member[index]["title"]}",
+                              weight: FontWeight.w600,
+                            ),
+                            subtitle: CustomText(
+                              text: "${member[index]["value"]}",
+                              fontSize: 12.sp,
+                              color: black.withOpacity(0.5),
                             ),
                           ),
-                          title: CustomText(
-                            text: "${member[index]["title"]}",
-                            weight: FontWeight.w600,
-                          ),
-                          subtitle: CustomText(
-                            text: "${member[index]["value"]}",
-                            fontSize: 12.sp,
-                            color: black.withOpacity(0.5),
-                          ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

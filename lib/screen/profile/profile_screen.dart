@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:video_call/Adhelper/ad_helper.dart';
 import 'package:video_call/routes/app_pages.dart';
 import 'package:video_call/screen/home_screen/home_con.dart';
+import '../../Adhelper/ad_config.dart';
 import '../../common/colors.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -13,8 +15,34 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen>
+    with WidgetsBindingObserver  {
   HomeController homeController = Get.find();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  bool showAds = false;
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.hidden ||
+        state == AppLifecycleState.paused) {
+      setState(() {
+        showAds = true;
+      });
+    } else if (state == AppLifecycleState.inactive && showAds) {
+      if (!Config.hideAds) {
+        AdHelper.loadAppOpenAd();
+        setState(() {
+          showAds = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,9 +71,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   bottom: -45,
                   child: GestureDetector(
                     onTap: () {
-                      if (!homeController.userLogin()) {
-                        Get.offAllNamed(AppPages.login);
-                      }
+                      AdHelper.showInterstitialAd(onComplete: () {
+                        if (!homeController.userLogin()) {
+                          Get.offAllNamed(AppPages.login);
+                        }
+                      });
                     },
                     child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 12),
@@ -97,31 +127,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(AppPages.vipScreen);
+                      AdHelper.showInterstitialAd(onComplete: () {
+                        Get.toNamed(AppPages.vipScreen);
+                      });
                     },
                     child: commanTile(
                         icon: Icons.wb_incandescent_rounded, title: "VIP"),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      AdHelper.showInterstitialAd(onComplete: () {
+                        //
+                      });
+                    },
                     child: commanTile(icon: Icons.diamond, title: "Diamond"),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      AdHelper.showInterstitialAd(onComplete: () {
+                        //
+                      });
+                    },
                     child: commanTile(
                         icon: Icons.card_giftcard, title: "My Present"),
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(AppPages.visitor);
+                      AdHelper.showInterstitialAd(onComplete: () {
+                        //
+                        Get.toNamed(AppPages.visitor);
+                      });
                     },
                     child: commanTile(icon: Icons.person_4, title: "Visitor"),
                   ),
                   if (homeController.userLogin())
                     GestureDetector(
                       onTap: () {
-                        FirebaseAuth.instance.signOut();
-                        Get.offAllNamed(AppPages.login);
+                        AdHelper.showInterstitialAd(onComplete: () {
+                          FirebaseAuth.instance.signOut();
+                          Get.offAllNamed(AppPages.login);
+                        });
                       },
                       child: commanTile(icon: Icons.logout, title: "Logout"),
                     ),
