@@ -59,6 +59,8 @@ void main() async {
   if (!Config.hideAds) {
     AdHelper.loadAppOpenAd();
   }
+  AdHelper.precacheInterstitialAd();
+  AdHelper.precacheNativeAd();
   bool userlogin = FirebaseAuth.instance.currentUser != null;
   runApp(MyApp(usetLogin: userlogin));
 }

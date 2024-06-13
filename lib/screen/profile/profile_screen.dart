@@ -102,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           ),
                           title: CustomText(
                             text: homeController.userLogin()
-                                ? "${"-"}"
+                                ? "-"
                                 : "Login with Google",
                             weight: FontWeight.w600,
                           ),

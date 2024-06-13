@@ -53,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
     }
   }
+    final _adController = NativeAdController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       },
       child: Obx(
         () {
+          _adController.ad = AdHelper.loadNativeAd(adController: _adController);
           return Scaffold(
             backgroundColor: yellowOpacity,
             appBar: homeController.currantIndex.value == 1 ||

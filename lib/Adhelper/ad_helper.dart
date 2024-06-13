@@ -242,7 +242,7 @@ class AdHelper {
 }
 
 class NativeAdWidget extends StatefulWidget {
-  const NativeAdWidget({Key? key}) : super(key: key);
+  const NativeAdWidget({super.key});
 
   @override
   _NativeAdWidgetState createState() => _NativeAdWidgetState();

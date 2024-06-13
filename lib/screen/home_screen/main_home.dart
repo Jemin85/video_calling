@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:video_call/Adhelper/ad_helper.dart';
 import 'package:video_call/common/colors.dart';
 import 'package:video_call/routes/app_pages.dart';
@@ -42,9 +43,11 @@ class _MainHomeScreenState extends State<MainHomeScreen>
       }
     }
   }
+  final _adController = NativeAdController();
 
   @override
   Widget build(BuildContext context) {
+      _adController.ad = AdHelper.loadNativeAd(adController: _adController);
     return Scaffold(
       backgroundColor: yellowOpacity,
       body: Container(
@@ -53,6 +56,13 @@ class _MainHomeScreenState extends State<MainHomeScreen>
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Container(
+              child: _adController.ad != null && _adController.adLoaded.isTrue
+                  ? SafeArea(
+                      child: SizedBox(
+                          height: 85, child: AdWidget(ad: _adController.ad!)))
+                  : null,
+            ),
             Row(
               children: [
                 Expanded(
