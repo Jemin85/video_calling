@@ -33,26 +33,27 @@ void main() async {
           apiKey: "AIzaSyA6Vvp9xLqCe8EUNWUkBISFaj4WvrArStA",
           appId: "1:57502866661:android:2472344ce17ee3ef9bc80c",
           messagingSenderId: "57502866661",
+          storageBucket: "videocall-53a52.appspot.com",
           projectId: "videocall-53a52"));
 
   AdHelper.initAds();
   Config.initConfig();
 
-  //      FirebaseMessaging.onBackgroundMessage(_firebaseMessengingHandle);
-  // await FirebaseMessaging.instance.subscribeToTopic("all");
+       FirebaseMessaging.onBackgroundMessage(firebaseMessengingHandle);   
+  await FirebaseMessaging.instance.subscribeToTopic("all");
 
-  // FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-  //   // print("------------------${message.data}");
-  //   await flutterLocalNotificationsPlugin
-  //       .resolvePlatformSpecificImplementation<
-  //           AndroidFlutterLocalNotificationsPlugin>()
-  //       ?.createNotificationChannel(channel);
-  //   await NotificationService.initialize();
-  //   NotificationService.showNotification(message);
-  // });
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    // print("------------------${message.data}");
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+    await NotificationService.initialize();
+    NotificationService.showNotification(message);
+  });
 
-  //   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-  //     alert: true, badge: true, sound: true);
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true, badge: true, sound: true);
 
   if (!Config.hideAds) {
     AdHelper.loadAppOpenAd();

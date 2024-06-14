@@ -15,7 +15,7 @@ class Config {
     "fb_native": "IMG_16_9_APP_INSTALL#2312433698835503_2964952163583650",
     "fb_interstitial": "IMG_16_9_APP_INSTALL#2312433698835503_2650502525028617",
     "fb_open": "",
-    "show_ads": true
+    "show_ads": false
   };
 
   static Future<void> initConfig() async {

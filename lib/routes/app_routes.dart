@@ -16,6 +16,11 @@ class Routes {
   static const mainHome = _Paths.mainHome;
   static const visitor = _Paths.visitor;
   static const splash = _Paths.splash;
+  static const myPresents = _Paths.myPresents;
+
+  static const webHome = _Paths.webHome;
+  static const photoAdd = _Paths.photoAdd;
+  static const uploadReels = _Paths.uploadReels;
 }
 
 abstract class _Paths {
@@ -34,4 +39,9 @@ abstract class _Paths {
   static const mainHome = "/mainHome";
   static const visitor = "/visitor";
   static const splash = "/splash";
+  static const myPresents = "/myPresents";
+
+  static const webHome = "/webHome";
+  static const photoAdd = "/photoAdd";
+  static const uploadReels = "/uploadReels";
 }

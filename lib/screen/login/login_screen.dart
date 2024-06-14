@@ -50,6 +50,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
+        color: black,
         decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("images/splash.jpg"), fit: BoxFit.cover)),
@@ -72,7 +73,14 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                           fontSize: 35.sp,
                           weight: FontWeight.w900,
                         ),
-                        CustomText(text: "text")
+                        const SizedBox(height: 15),
+                         CustomText(
+                          text:
+                              " Connect instantly with friends and new people through live video calls and chat. Start your adventure today!",
+                          align: TextAlign.center,
+                          weight: FontWeight.w700,
+                          color: white.withOpacity(0.7),
+                        )
                       ],
                     ),
                   ),
@@ -85,10 +93,10 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                         // width: double.infinity,
                         alignment: Alignment.center,
                         margin: const EdgeInsets.symmetric(vertical: 25),
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(18),
                         decoration: BoxDecoration(
                             color: white,
-                            borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(30)),
                         child: loginController.isload.value
                             ? const CircularProgressIndicator(color: black)
                             : Row(
@@ -96,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                                 children: [
                                   Image.asset(
                                     "images/google.png",
-                                    height: 20,
+                                    height: 22,
                                   ),
                                   const SizedBox(width: 10),
                                   const CustomText(

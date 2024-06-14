@@ -16,9 +16,9 @@ class VisitorScreem extends StatefulWidget {
   State<VisitorScreem> createState() => _VisitorScreemState();
 }
 
-class _VisitorScreemState extends State<VisitorScreem> with WidgetsBindingObserver {
-
-    @override
+class _VisitorScreemState extends State<VisitorScreem>
+    with WidgetsBindingObserver {
+  @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     super.initState();
@@ -41,6 +41,7 @@ class _VisitorScreemState extends State<VisitorScreem> with WidgetsBindingObserv
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -68,70 +69,92 @@ class _VisitorScreemState extends State<VisitorScreem> with WidgetsBindingObserv
             weight: FontWeight.w700,
           ),
         ),
-        body: GridView(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            mainAxisSpacing: 0,
-            crossAxisSpacing: 0,
-            childAspectRatio: 0.85,
-          ),
-          children: List.generate(
-            6,
-            (index) {
-              return GestureDetector(
-                onTap: () async {
-                  AdHelper.showInterstitialAd(onComplete: () {
-                    if (index < 3) {
-                      Get.toNamed(AppPages.userScreen);
-                    } else {
-                      Get.toNamed(AppPages.vipScreen);
-                    }
-                  });
-                },
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      radius: 55,
-                      backgroundImage: const NetworkImage(
-                          "https://cdn-icons-png.flaticon.com/512/219/219983.png"),
-                      child: index < 3
-                          ? null
-                          : Center(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                      sigmaX: 10.0, sigmaY: 10.0),
+        body: Column(
+          children: [
+            GridView(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 0,
+                crossAxisSpacing: 0,
+                childAspectRatio: 0.85,
+              ),
+              children: List.generate(
+                6,
+                (index) {
+                  return GestureDetector(
+                    onTap: () async {
+                      AdHelper.showInterstitialAd(onComplete: () {
+                        if (index < 3) {
+                          Get.toNamed(AppPages.userScreen);
+                        } else {
+                          Get.toNamed(AppPages.vipScreen);
+                        }
+                      });
+                    },
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 55,
+                          backgroundImage: const NetworkImage(
+                              "https://cdn-icons-png.flaticon.com/512/219/219983.png"),
+                          child: index < 3
+                              ? null
+                              : Center(
                                   child: ClipRRect(
-                                    child: Container(
-                                      height: 110,
-                                      width: 110,
-                                      alignment: Alignment.center,
-                                      child: CustomText(
-                                        text: "VIP",
-                                        color: white,
-                                        weight: FontWeight.w700,
-                                        fontSize: 18.sp,
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                          sigmaX: 10.0, sigmaY: 10.0),
+                                      child: ClipRRect(
+                                        child: Container(
+                                          height: 110,
+                                          width: 110,
+                                          alignment: Alignment.center,
+                                          child: CustomText(
+                                            text: "VIP",
+                                            color: white,
+                                            weight: FontWeight.w700,
+                                            fontSize: 18.sp,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
+                        ),
+                        const SizedBox(height: 10),
+                        CustomText(
+                          text: "fdf",
+                          fontSize: 14.sp,
+                          weight: FontWeight.w700,
+                        )
+                      ],
                     ),
-                    const SizedBox(height: 10),
-                    CustomText(
-                      text: "fdf",
-                      fontSize: 14.sp,
-                      weight: FontWeight.w700,
-                    )
-                  ],
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 15),
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(AppPages.vipScreen);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(15),
+                margin: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    color: greenColor, borderRadius: BorderRadius.circular(30)),
+                child: const CustomText(
+                  text: "Get VIP",
+                  color: white,
+                  weight: FontWeight.w700,
                 ),
-              );
-            },
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );

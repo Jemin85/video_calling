@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
         AdHelper.precacheInterstitialAd();
         AdHelper.precacheNativeAd();
         if (userlogin) {
-          Get.toNamed(AppPages.homeScreen);
+          Get.toNamed(AppPages.mainHome);
         } else {
           Get.toNamed(AppPages.login);
         }
