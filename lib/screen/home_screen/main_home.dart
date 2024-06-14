@@ -5,7 +5,9 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:video_call/Adhelper/ad_helper.dart';
 import 'package:video_call/common/colors.dart';
 import 'package:video_call/routes/app_pages.dart';
+import 'package:video_call/screen/chat_screen/chat_con.dart';
 import 'package:video_call/screen/home_screen/home_con.dart';
+import 'package:video_call/screen/video_reel/video_con.dart';
 
 import '../../Adhelper/ad_config.dart';
 
@@ -17,10 +19,12 @@ class MainHomeScreen extends StatefulWidget {
 }
 
 class _MainHomeScreenState extends State<MainHomeScreen>
-    with WidgetsBindingObserver  {
+    with WidgetsBindingObserver {
   HomeController homeController = Get.put(HomeController());
+  ChatController chatController = Get.put(ChatController());
+  VideoController videoController = Get.put(VideoController());
 
-    @override
+  @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     super.initState();
@@ -43,116 +47,136 @@ class _MainHomeScreenState extends State<MainHomeScreen>
       }
     }
   }
+
   final _adController = NativeAdController();
 
   @override
   Widget build(BuildContext context) {
-      _adController.ad = AdHelper.loadNativeAd(adController: _adController);
+    _adController.ad = AdHelper.loadNativeAd(adController: _adController);
     return Scaffold(
       backgroundColor: yellowOpacity,
       body: Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              child: _adController.ad != null && _adController.adLoaded.isTrue
-                  ? SafeArea(
-                      child: SizedBox(
-                          height: 85, child: AdWidget(ad: _adController.ad!)))
-                  : null,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      AdHelper.showInterstitialAd(onComplete: () {
-                        Get.toNamed(AppPages.homeScreen);
-                      });
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 40),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: greenColor,
-                          borderRadius: BorderRadius.circular(10)),
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("images/back.jpg"), fit: BoxFit.cover)),
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          color: black.withOpacity(0.5),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                  child: Padding(
+                      padding: const EdgeInsets.only(top: 70),
                       child: CustomText(
-                        text: "Photos",
-                        fontSize: 30.sp,
+                        text: "Tingle".toUpperCase(),
                         color: white,
+                        fontSize: 50.sp,
                         weight: FontWeight.w700,
+                        align: TextAlign.center,
+                      ))),
+              Container(
+                child: _adController.ad != null && _adController.adLoaded.isTrue
+                    ? SafeArea(
+                        child: SizedBox(
+                            height: 150,
+                            child: AdWidget(ad: _adController.ad!)))
+                    : null,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        AdHelper.showInterstitialAd(onComplete: () {
+                          Get.toNamed(AppPages.homeScreen);
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: greenColor,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: CustomText(
+                          text: "Photos",
+                          fontSize: 30.sp,
+                          color: white,
+                          weight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 15),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      AdHelper.showInterstitialAd(onComplete: () {
-                        Get.toNamed(AppPages.videoReels);
-                      });
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 40),
-                      decoration: BoxDecoration(
-                          color: greenColor,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: CustomText(
-                        text: "Reels",
-                        fontSize: 30.sp,
-                        color: white,
-                        weight: FontWeight.w700,
+                  const SizedBox(width: 15),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        AdHelper.showInterstitialAd(onComplete: () {
+                          Get.toNamed(AppPages.videoReels);
+                        });
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        decoration: BoxDecoration(
+                            color: greenColor,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: CustomText(
+                          text: "Reels",
+                          fontSize: 30.sp,
+                          color: white,
+                          weight: FontWeight.w700,
+                        ),
                       ),
                     ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 15),
+              GestureDetector(
+                onTap: () {
+                  AdHelper.showInterstitialAd(onComplete: () {
+                    Get.toNamed(AppPages.userChat);
+                  });
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  decoration: BoxDecoration(
+                      color: greenColor,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: CustomText(
+                    text: "Chat",
+                    fontSize: 20.sp,
+                    color: white,
+                    weight: FontWeight.w700,
                   ),
-                )
-              ],
-            ),
-            const SizedBox(height: 15),
-            GestureDetector(
-              onTap: () {
-                AdHelper.showInterstitialAd(onComplete: () {
-                  Get.toNamed(AppPages.userChat);
-                });
-              },
-              child: Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                decoration: BoxDecoration(
-                    color: greenColor, borderRadius: BorderRadius.circular(10)),
-                child: CustomText(
-                  text: "Chat",
-                  fontSize: 20.sp,
-                  color: white,
-                  weight: FontWeight.w700,
                 ),
               ),
-            ),
-            const SizedBox(height: 15),
-            GestureDetector(
-              onTap: () {
-                AdHelper.showInterstitialAd(onComplete: () {
-                  Get.toNamed(AppPages.profile);
-                });
-              },
-              child: Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                decoration: BoxDecoration(
-                    color: greenColor, borderRadius: BorderRadius.circular(10)),
-                child: CustomText(
-                  text: "Profile",
-                  fontSize: 20.sp,
-                  color: white,
-                  weight: FontWeight.w700,
+              const SizedBox(height: 15),
+              GestureDetector(
+                onTap: () {
+                  AdHelper.showInterstitialAd(onComplete: () {
+                    Get.toNamed(AppPages.profile);
+                  });
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  decoration: BoxDecoration(
+                      color: greenColor,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: CustomText(
+                    text: "Profile",
+                    fontSize: 20.sp,
+                    color: white,
+                    weight: FontWeight.w700,
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

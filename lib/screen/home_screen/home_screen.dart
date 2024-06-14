@@ -21,7 +21,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   HomeController homeController = Get.find();
   // List bottom = [Icons.home, Icons.video_call, Icons.chat, Icons.person];
-  int indexs = 15;
 
   List pages = [
     Container(),
@@ -53,7 +52,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
     }
   }
-    final _adController = NativeAdController();
+
+  final _adController = NativeAdController();
 
   @override
   Widget build(BuildContext context) {
@@ -91,58 +91,26 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         },
                         child: const Icon(Icons.arrow_back_ios_new)),
                   ),
-            // bottomNavigationBar: Container(
-            //   height: 80,
-            //   color: white,
-            //   child: Row(
-            //     children: List.generate(
-            //       bottom.length,
-            //       (index) {
-            //         return Expanded(
-            //           child: GestureDetector(
-            //             onTap: () {
-            //               homeController.changeIndex(index);
-            //             },
-            //             child: Container(
-            //               color: Colors.transparent,
-            //               child: Icon(
-            //                 bottom[index],
-            //                 size: 30,
-            //                 color: homeController.currantIndex.value == index
-            //                     ? greenColor
-            //                     : black,
-            //               ),
-            //             ),
-            //           ),
-            //         );
-            //       },
-            //     ),
-            //   ),
-            // ),
             body: homeController.currantIndex.value != 0
                 ? pages[homeController.currantIndex.value]
                 : ListView.builder(
                     padding: const EdgeInsets.all(15),
-                    itemCount:
-                        (indexs ~/ 2) * 3, // Total items, accounting for ads
+                    itemCount: (homeController.photos.length ~/ 2) *
+                        3, // Total items, accounting for ads
                     itemBuilder: (context, index) {
                       if ((index + 1) % 3 == 0) {
                         // Insert an ad every 3rd item
                         // return NativeAdWidget();
-                        return Container(
-                          height: 150,
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          color: mendicolor,
-                        );
-                        // return !Config.hideAds
-                        //     ? const Padding(
-                        //         padding: EdgeInsets.symmetric(vertical: 10),
-                        //         child: NativeAdWidget(),
-                        //       )
-                        //     : Container(
-                        //         height: 0,
-                        //         color: Colors.white,
-                        //       );
+
+                        return !Config.hideAds
+                            ? const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: NativeAdWidget(),
+                              )
+                            : Container(
+                                height: 0,
+                                color: Colors.white,
+                              );
                       } else {
                         // Calculate the actual product index
                         int productIndex = index - (index ~/ 3);
@@ -150,22 +118,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         if (productIndex % 2 == 0) {
                           return Row(
                             children: [
-                              const Expanded(child: ViewData()),
-                              // Expanded(
-                              //     child: ProductWigets(
-                              //         index: index,
-                              //         object: homeController
-                              //             .allProductList[productIndex]
-                              //             .data() as Map)),
-                              // Expanded(child: ProductWidget(products[productIndex])),
-                              if (productIndex + 1 < indexs)
-                                const Expanded(child: ViewData())
-                              // Expanded(
-                              //     child: ProductWigets(
-                              //         index: index,
-                              //         object: homeController
-                              //             .allProductList[productIndex + 1]
-                              //             .data() as Map)),
+                              Expanded(
+                                  child: ViewData(
+                                data: homeController.photos[productIndex].data()
+                                    as Map,
+                              )),
+                              if (productIndex + 1 <
+                                  homeController.photos.length)
+                                Expanded(
+                                    child: ViewData(
+                                  data: homeController.photos[productIndex + 1]
+                                      .data() as Map,
+                                ))
                             ],
                           );
                         }
@@ -182,7 +146,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 }
 
 class ViewData extends StatefulWidget {
-  const ViewData({super.key});
+  final Map data;
+  const ViewData({super.key, required this.data});
 
   @override
   State<ViewData> createState() => _ViewDataState();
@@ -194,7 +159,7 @@ class _ViewDataState extends State<ViewData> {
     return GestureDetector(
       onTap: () {
         AdHelper.showInterstitialAd(onComplete: () {
-          Get.toNamed(AppPages.userScreen);
+          Get.toNamed(AppPages.userScreen, arguments: widget.data);
         });
       },
       child: Card(
@@ -208,14 +173,15 @@ class _ViewDataState extends State<ViewData> {
               height: 180,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                // image: DecorationImage(
-                //     image: NetworkImage("${object["photo"]}"), fit: BoxFit.cover),
+                image: DecorationImage(
+                    image: NetworkImage("${widget.data["photo"]}"),
+                    fit: BoxFit.cover),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 15, top: 10),
               child: CustomText(
-                text: "Sunny",
+                text: "${widget.data["name"]}",
                 maxline: 1,
                 fontSize: 13.sp,
                 weight: FontWeight.w700,
@@ -224,27 +190,12 @@ class _ViewDataState extends State<ViewData> {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 10, left: 15, right: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomText(
-                    text: "₹ 152",
-                    fontSize: 12.sp,
-                    weight: FontWeight.w700,
-                    align: TextAlign.center,
-                    color: Colors.black,
-                  ),
-                  Row(
-                    children: List.generate(
-                      5,
-                      (index) => Icon(
-                        index > 3 ? Icons.star_border : Icons.star,
-                        size: 12,
-                        color: Colors.amber,
-                      ),
-                    ),
-                  )
-                ],
+              child: CustomText(
+                text: "${widget.data["dob"]}",
+                fontSize: 12.sp,
+                weight: FontWeight.w700,
+                align: TextAlign.start,
+                color: Colors.black,
               ),
             ),
           ],

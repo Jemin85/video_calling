@@ -27,19 +27,41 @@ class ChatController extends GetxController {
     super.onInit();
   }
 
-  addData({required String msg, required String name}) async {
+  addData({required String msg}) async {
     var massege = {
       "email": FirebaseAuth.instance.currentUser!.email,
       "msg": msg,
       'timestamp': DateTime.now().millisecondsSinceEpoch
     };
     final collection = FirebaseFirestore.instance.collection("chat");
-    Query query = collection.where("name", isEqualTo: name);
+    Query query = collection.where("email", isEqualTo: FirebaseAuth.instance.currentUser!.email);
     var data = await query.get();
     collection.doc(data.docs.first.id).update({
       "massage": FieldValue.arrayUnion([massege])
     });
   }
 
-  
+  noChatFound({required String name,required String profile}) {
+    var massege = [
+      {
+        "email": name,
+        "msg": "Hiii ",
+        'timestamp': DateTime.now().millisecondsSinceEpoch
+      },
+      {
+        "email": name,
+        "msg": "How are you?",
+        'timestamp': DateTime.now().millisecondsSinceEpoch
+      },
+    ];
+    final collection = FirebaseFirestore.instance.collection("chat");
+    print("--------------${profile}");
+    var addData = {
+      "name" : name,
+      "email" :FirebaseAuth.instance.currentUser!.email,
+      "profile" : "$profile",
+      "massage" : massege,
+    };
+    collection.add(addData);
+  }
 }

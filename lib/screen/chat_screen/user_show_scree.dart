@@ -22,6 +22,7 @@ class _UserShowScreenState extends State<UserShowScreen>
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
+    chatController.findUserData();
     super.initState();
   }
 
@@ -43,8 +44,6 @@ class _UserShowScreenState extends State<UserShowScreen>
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -60,6 +59,10 @@ class _UserShowScreenState extends State<UserShowScreen>
           backgroundColor: yellowOpacity,
           surfaceTintColor: Colors.transparent,
           toolbarHeight: 80,
+          title: CustomText(
+            text: "Chat".toUpperCase(),
+            color: black,
+          ),
           leading: GestureDetector(
               onTap: () {
                 AdHelper.showInterstitialAd(onComplete: () {
@@ -70,11 +73,11 @@ class _UserShowScreenState extends State<UserShowScreen>
         ),
         body: Column(
           children: [
-            Container(
-              height: 150,
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-              color: greenColor,
-            ),
+            if (Config.hideAds)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: NativeAdWidget(),
+              ),
             Expanded(child: Obx(
               () {
                 return SingleChildScrollView(
@@ -88,12 +91,14 @@ class _UserShowScreenState extends State<UserShowScreen>
                           onTap: () {
                             AdHelper.showInterstitialAd(onComplete: () {
                               Get.toNamed(AppPages.showchat,
-                                  arguments: "${object["name"]}");
+                                  arguments: object);
                             });
                           },
                           contentPadding: const EdgeInsets.all(15),
-                          leading: const CircleAvatar(
+                          leading: CircleAvatar(
                             radius: 30,
+                            backgroundImage:
+                                NetworkImage("${object["profile"]}"),
                             backgroundColor: greenColor,
                           ),
                           shape: RoundedRectangleBorder(

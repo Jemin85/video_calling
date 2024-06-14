@@ -60,10 +60,10 @@ class _ShowChatScreenState extends State<ShowChatScreen>
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           toolbarHeight: 80,
-          centerTitle: false,
+          centerTitle: true,
           surfaceTintColor: Colors.transparent,
           title: CustomText(
-            text: "${Get.arguments}".toUpperCase(),
+            text: "${Get.arguments["name"]}".toUpperCase(),
             weight: FontWeight.w700,
           ),
           leading: GestureDetector(
@@ -75,7 +75,7 @@ class _ShowChatScreenState extends State<ShowChatScreen>
               child: const Icon(Icons.arrow_back_ios_new)),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: 1 == 1
+        floatingActionButton: 2 == 1
             ? GestureDetector(
                 onTap: () {
                   AdHelper.showInterstitialAd(onComplete: () {
@@ -128,8 +128,7 @@ class _ShowChatScreenState extends State<ShowChatScreen>
                     GestureDetector(
                       onTap: () {
                         if (chat.text.isNotEmpty) {
-                          chatController.addData(
-                              msg: chat.text, name: "${Get.arguments}");
+                          chatController.addData(msg: chat.text);
                           chat.clear();
                           setState(() {});
                         }
@@ -154,17 +153,16 @@ class _ShowChatScreenState extends State<ShowChatScreen>
             padding: const EdgeInsets.only(bottom: 90),
             physics: const AlwaysScrollableScrollPhysics(),
             child: StreamBuilder(
-              stream: chatController.findUserChatData(name: "${Get.arguments}"),
+              stream: chatController.findUserChatData(name: "${Get.arguments["name"]}"),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.data!.docs.isEmpty) {
-                  return Padding(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.width * 0.5),
-                    child: const CustomText(
-                      text: "No Cart Product Found",
+                  chatController.noChatFound(name: "${Get.arguments["name"]}",profile: "${Get.arguments["photo"]}");
+                  return const Center(
+                    child: CustomText(
+                      text: "No chat found",
                       color: black,
                       weight: FontWeight.w600,
                     ),
@@ -178,8 +176,7 @@ class _ShowChatScreenState extends State<ShowChatScreen>
                     chat.length,
                     (index) {
                       var object = chat[index];
-                      if (object["email"] ==
-                          FirebaseAuth.instance.currentUser!.email) {
+                      if (object["email"] == FirebaseAuth.instance.currentUser!.email) {
                         return Padding(
                           padding: EdgeInsets.only(
                               bottom: 10,
