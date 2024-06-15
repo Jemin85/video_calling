@@ -50,10 +50,10 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
+        // decoration: const BoxDecoration(
             
-            image: DecorationImage(
-                image: AssetImage("images/splash.jpg"), fit: BoxFit.cover)),
+        //     image: DecorationImage(
+        //         image: AssetImage("images/splash.jpg"), fit: BoxFit.cover)),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 3.0),
           child: ClipRRect(

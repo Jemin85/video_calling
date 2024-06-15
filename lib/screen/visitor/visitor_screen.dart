@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:video_call/common/colors.dart';
 import 'package:video_call/routes/app_pages.dart';
+import 'package:video_call/screen/home_screen/home_con.dart';
 
 import '../../Adhelper/ad_config.dart';
 import '../../Adhelper/ad_helper.dart';
@@ -18,9 +20,12 @@ class VisitorScreem extends StatefulWidget {
 
 class _VisitorScreemState extends State<VisitorScreem>
     with WidgetsBindingObserver {
+  HomeController homeController = Get.find();
+  List visitor = [];
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
+    visitor = getRandomItems(homeController.photos, 6);
     super.initState();
   }
 
@@ -40,6 +45,21 @@ class _VisitorScreemState extends State<VisitorScreem>
         });
       }
     }
+  }
+
+  List getRandomItems(List list, int count) {
+    Random random = Random();
+    Set<int> selectedIndices = Set<int>();
+
+    // Ensure unique indices
+    while (selectedIndices.length < count) {
+      selectedIndices.add(random.nextInt(list.length));
+    }
+
+    // Select items based on indices
+    List randomItems = selectedIndices.map((index) => list[index]).toList();
+
+    return randomItems;
   }
 
   @override
@@ -81,8 +101,9 @@ class _VisitorScreemState extends State<VisitorScreem>
                 childAspectRatio: 0.85,
               ),
               children: List.generate(
-                6,
+                visitor.length,
                 (index) {
+                  var data = homeController.photos[index].data() as Map;
                   return GestureDetector(
                     onTap: () async {
                       AdHelper.showInterstitialAd(onComplete: () {
@@ -126,7 +147,7 @@ class _VisitorScreemState extends State<VisitorScreem>
                         ),
                         const SizedBox(height: 10),
                         CustomText(
-                          text: "fdf",
+                          text: "${data["dob"]}",
                           fontSize: 14.sp,
                           weight: FontWeight.w700,
                         )

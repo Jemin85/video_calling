@@ -173,9 +173,9 @@ class _ViewDataState extends State<ViewData> {
               height: 180,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                image: DecorationImage(
-                    image: NetworkImage("${widget.data["photo"]}"),
-                    fit: BoxFit.cover),
+                // image: DecorationImage(
+                //     image: NetworkImage("${widget.data["photo"]}"),
+                //     fit: BoxFit.cover),
               ),
             ),
             Padding(

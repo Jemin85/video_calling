@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:video_call/Adhelper/ad_config.dart';
 import 'package:video_call/common/colors.dart';
 
@@ -13,7 +14,8 @@ class VIPScreen extends StatefulWidget {
   State<VIPScreen> createState() => _VIPScreenState();
 }
 
-class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver  {
+class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
+  final _adController = NativeAdController();
   List member = [
     {
       "title": "Unlock chat restrictions",
@@ -42,7 +44,7 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver  {
     },
   ];
 
-    @override
+  @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     super.initState();
@@ -68,6 +70,7 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver  {
 
   @override
   Widget build(BuildContext context) {
+    _adController.ad = AdHelper.loadNativeAd(adController: _adController);
     return WillPopScope(
       onWillPop: () async {
         AdHelper.showInterstitialAd(onComplete: () {
@@ -103,10 +106,15 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver  {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if(!Config.hideAds)
                 Container(
-                  height: 150,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  color: greenColor,
+                  child:
+                      _adController.ad != null && _adController.adLoaded.isTrue
+                          ? SafeArea(
+                              child: SizedBox(
+                                  height: 150,
+                                  child: AdWidget(ad: _adController.ad!)))
+                          : null,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -121,9 +129,7 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver  {
                 GestureDetector(
                   onTap: () {
                     AdHelper.showInterstitialAd(onComplete: () {});
-
                   },
-                  
                   child: listTimeshow(
                       title: "VIP 6 Month",
                       subtitle: "Rs. 799 six month",
@@ -133,7 +139,6 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver  {
                 GestureDetector(
                   onTap: () {
                     AdHelper.showInterstitialAd(onComplete: () {});
-
                   },
                   child: listTimeshow(
                       title: "VIP 1 Year",

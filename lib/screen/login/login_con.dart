@@ -43,7 +43,7 @@ class LoginController extends GetxController {
           }
         }
         AdHelper.showInterstitialAd(onComplete: () {
-        Get.toNamed(AppPages.homeScreen);
+        Get.toNamed(AppPages.mainHome);
         });
         isload(false);
       } else {

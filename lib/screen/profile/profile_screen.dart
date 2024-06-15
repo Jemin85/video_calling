@@ -16,7 +16,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen>
-    with WidgetsBindingObserver  {
+    with WidgetsBindingObserver {
   HomeController homeController = Get.find();
 
   @override
@@ -46,7 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-       onWillPop: () async {
+      onWillPop: () async {
         AdHelper.showInterstitialAd(onComplete: () {
           Get.back();
         });
@@ -155,6 +155,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       onTap: () {
                         AdHelper.showInterstitialAd(onComplete: () {
                           //
+                          Get.toNamed(AppPages.diamond);
                         });
                       },
                       child: commanTile(icon: Icons.diamond, title: "Diamond"),
@@ -163,7 +164,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       onTap: () {
                         AdHelper.showInterstitialAd(onComplete: () {
                           //
-                             Get.toNamed(AppPages.myPresents);
+                          Get.toNamed(AppPages.myPresents);
                         });
                       },
                       child: commanTile(
