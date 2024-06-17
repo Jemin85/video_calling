@@ -63,7 +63,7 @@ class LoginController extends GetxController {
         pref.setString("name", googleUser.displayName ?? "User");
         pref.setString("email", googleUser.email);
         pref.setString("profile", "${googleUser.photoUrl}");
-        Get.toNamed(AppPages.homeScreen);
+        Get.toNamed(AppPages.mainHome);
         isload(false);
       }
     } on Exception catch (e) {

@@ -115,95 +115,97 @@ class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
                     fit: BoxFit.cover),
               ),
             ),
-            SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomText(
-                    text: "${userData["name"]}",
-                    color: black,
-                    weight: FontWeight.w800,
-                    fontSize: 20.sp,
-                  ),
-                  const SizedBox(height: 10),
-                  CustomText(
-                    text: "${userData["description"]}",
-                    color: black.withOpacity(0.5),
-                    weight: FontWeight.w400,
-                    fontSize: 14.sp,
-                  ),
-                  if (Config.hideAds)
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: NativeAdWidget(),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: "${userData["name"]}",
+                      color: black,
+                      weight: FontWeight.w800,
+                      fontSize: 20.sp,
                     ),
-                  ListTile(
-                    leading: const Icon(Icons.work, color: greenColor),
-                    contentPadding: EdgeInsets.zero,
-                    title: CustomText(
-                      text: "Profesion",
+                    const SizedBox(height: 10),
+                    CustomText(
+                      text: "${userData["description"]}",
                       color: black.withOpacity(0.5),
                       weight: FontWeight.w400,
                       fontSize: 14.sp,
                     ),
-                    subtitle: CustomText(
-                      text: "${userData["profesion"]}",
-                      color: black,
-                      weight: FontWeight.w600,
-                      fontSize: 14.sp,
+                    if (Config.hideAds)
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: NativeAdWidget(),
+                      ),
+                    ListTile(
+                      leading: const Icon(Icons.work, color: greenColor),
+                      contentPadding: EdgeInsets.zero,
+                      title: CustomText(
+                        text: "Profesion",
+                        color: black.withOpacity(0.5),
+                        weight: FontWeight.w400,
+                        fontSize: 14.sp,
+                      ),
+                      subtitle: CustomText(
+                        text: "${userData["profesion"]}",
+                        color: black,
+                        weight: FontWeight.w600,
+                        fontSize: 14.sp,
+                      ),
                     ),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.date_range, color: greenColor),
-                    contentPadding: EdgeInsets.zero,
-                    title: CustomText(
-                      text: "DOB",
-                      color: black.withOpacity(0.5),
-                      weight: FontWeight.w400,
-                      fontSize: 14.sp,
+                    ListTile(
+                      leading: const Icon(Icons.date_range, color: greenColor),
+                      contentPadding: EdgeInsets.zero,
+                      title: CustomText(
+                        text: "DOB",
+                        color: black.withOpacity(0.5),
+                        weight: FontWeight.w400,
+                        fontSize: 14.sp,
+                      ),
+                      subtitle: CustomText(
+                        text: "${userData["dob"]}",
+                        color: black,
+                        weight: FontWeight.w600,
+                        fontSize: 14.sp,
+                      ),
                     ),
-                    subtitle: CustomText(
-                      text: "${userData["dob"]}",
-                      color: black,
-                      weight: FontWeight.w600,
-                      fontSize: 14.sp,
+                    ListTile(
+                      leading: const Icon(Icons.height, color: greenColor),
+                      contentPadding: EdgeInsets.zero,
+                      title: CustomText(
+                        text: "Height",
+                        color: black.withOpacity(0.5),
+                        weight: FontWeight.w400,
+                        fontSize: 14.sp,
+                      ),
+                      subtitle: CustomText(
+                        text: "${userData["height"]}",
+                        color: black,
+                        weight: FontWeight.w600,
+                        fontSize: 14.sp,
+                      ),
                     ),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.height, color: greenColor),
-                    contentPadding: EdgeInsets.zero,
-                    title: CustomText(
-                      text: "Height",
-                      color: black.withOpacity(0.5),
-                      weight: FontWeight.w400,
-                      fontSize: 14.sp,
+                    ListTile(
+                      leading:
+                          const Icon(Icons.line_weight_sharp, color: greenColor),
+                      contentPadding: EdgeInsets.zero,
+                      title: CustomText(
+                        text: "Weight",
+                        color: black.withOpacity(0.5),
+                        weight: FontWeight.w400,
+                        fontSize: 14.sp,
+                      ),
+                      subtitle: CustomText(
+                        text: "${userData["weight"]}",
+                        color: black,
+                        weight: FontWeight.w600,
+                        fontSize: 14.sp,
+                      ),
                     ),
-                    subtitle: CustomText(
-                      text: "${userData["height"]}",
-                      color: black,
-                      weight: FontWeight.w600,
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                  ListTile(
-                    leading:
-                        const Icon(Icons.line_weight_sharp, color: greenColor),
-                    contentPadding: EdgeInsets.zero,
-                    title: CustomText(
-                      text: "Weight",
-                      color: black.withOpacity(0.5),
-                      weight: FontWeight.w400,
-                      fontSize: 14.sp,
-                    ),
-                    subtitle: CustomText(
-                      text: "${userData["weight"]}",
-                      color: black,
-                      weight: FontWeight.w600,
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             )
           ],

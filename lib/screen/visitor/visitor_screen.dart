@@ -108,7 +108,7 @@ class _VisitorScreemState extends State<VisitorScreem>
                     onTap: () async {
                       AdHelper.showInterstitialAd(onComplete: () {
                         if (index < 3) {
-                          Get.toNamed(AppPages.userScreen);
+                          Get.toNamed(AppPages.userScreen,arguments: data);
                         } else {
                           Get.toNamed(AppPages.vipScreen);
                         }
