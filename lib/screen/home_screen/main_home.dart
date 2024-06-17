@@ -56,9 +56,9 @@ class _MainHomeScreenState extends State<MainHomeScreen>
     return Scaffold(
       backgroundColor: yellowOpacity,
       body: Container(
-        // decoration: const BoxDecoration(
-        //     image: DecorationImage(
-        //         image: AssetImage("images/back.jpg"), fit: BoxFit.cover)),
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("images/back.jpg"), fit: BoxFit.cover)),
         child: Container(
           padding: const EdgeInsets.all(20),
           color: black.withOpacity(0.5),
@@ -66,16 +66,16 @@ class _MainHomeScreenState extends State<MainHomeScreen>
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Expanded(
-              //     child: Padding(
-              //         padding: const EdgeInsets.only(top: 70),
-              //         child: CustomText(
-              //           text: "Tingle".toUpperCase(),
-              //           color: white,
-              //           fontSize: 50.sp,
-              //           weight: FontWeight.w700,
-              //           align: TextAlign.center,
-              //         ))),
+              Expanded(
+                  child: Padding(
+                      padding: const EdgeInsets.only(top: 70),
+                      child: CustomText(
+                        text: "Tingle".toUpperCase(),
+                        color: white,
+                        fontSize: 50.sp,
+                        weight: FontWeight.w700,
+                        align: TextAlign.center,
+                      ))),
               if(!Config.hideAds)
               Container(
                 child: _adController.ad != null && _adController.adLoaded.isTrue

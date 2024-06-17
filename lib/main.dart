@@ -39,7 +39,7 @@ void main() async {
   AdHelper.initAds();
   Config.initConfig();
 
-       FirebaseMessaging.onBackgroundMessage(firebaseMessengingHandle);   
+  FirebaseMessaging.onBackgroundMessage(firebaseMessengingHandle);   
   await FirebaseMessaging.instance.subscribeToTopic("all");
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {

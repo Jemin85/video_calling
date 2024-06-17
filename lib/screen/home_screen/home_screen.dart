@@ -6,7 +6,6 @@ import 'package:video_call/routes/app_pages.dart';
 import 'package:video_call/screen/home_screen/home_con.dart';
 import 'package:video_call/screen/profile/profile_screen.dart';
 import 'package:video_call/screen/video_reel/video_screen.dart';
-
 import '../../Adhelper/ad_config.dart';
 import '../../common/colors.dart';
 import '../chat_screen/user_show_scree.dart';
@@ -173,9 +172,9 @@ class _ViewDataState extends State<ViewData> {
               height: 180,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                // image: DecorationImage(
-                //     image: NetworkImage("${widget.data["photo"]}"),
-                //     fit: BoxFit.cover),
+                image: DecorationImage(
+                    image: NetworkImage("${widget.data["photo"]}"),
+                    fit: BoxFit.cover),
               ),
             ),
             Padding(

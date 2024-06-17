@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_call/Adhelper/ad_helper.dart';
 
+import '../../Adhelper/ad_config.dart';
 import '../../common/colors.dart';
 
 class MyPresentsScreen extends StatefulWidget {
@@ -14,13 +15,32 @@ class MyPresentsScreen extends StatefulWidget {
 }
 
 class _MyPresentsScreenState extends State<MyPresentsScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   TabController? _tabController;
 
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
+  }
+
+  bool showAds = false;
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.hidden ||
+        state == AppLifecycleState.paused) {
+      setState(() {
+        showAds = true;
+      });
+    } else if (state == AppLifecycleState.inactive && showAds) {
+      if (!Config.hideAds) {
+        AdHelper.loadAppOpenAd();
+        setState(() {
+          showAds = false;
+        });
+      }
+    }
   }
 
   @override
@@ -111,7 +131,11 @@ class _MyPresentsScreenState extends State<MyPresentsScreen>
     return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(Icons.info, size: 30,color: greenColor,),
+        Icon(
+          Icons.info,
+          size: 30,
+          color: greenColor,
+        ),
         SizedBox(height: 10),
         CustomText(
           text: "No Data Found",
@@ -125,7 +149,11 @@ class _MyPresentsScreenState extends State<MyPresentsScreen>
     return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(Icons.info, size: 30,color: greenColor,),
+        Icon(
+          Icons.info,
+          size: 30,
+          color: greenColor,
+        ),
         SizedBox(height: 10),
         CustomText(
           text: "No Data Found",

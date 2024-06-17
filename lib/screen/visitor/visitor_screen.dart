@@ -118,8 +118,7 @@ class _VisitorScreemState extends State<VisitorScreem>
                       children: [
                         CircleAvatar(
                           radius: 55,
-                          backgroundImage: const NetworkImage(
-                              "https://cdn-icons-png.flaticon.com/512/219/219983.png"),
+                          backgroundImage: NetworkImage("${data["photo"]}"),
                           child: index < 3
                               ? null
                               : Center(
@@ -147,7 +146,7 @@ class _VisitorScreemState extends State<VisitorScreem>
                         ),
                         const SizedBox(height: 10),
                         CustomText(
-                          text: "${data["dob"]}",
+                          text: "${data["name"]}",
                           fontSize: 14.sp,
                           weight: FontWeight.w700,
                         )
