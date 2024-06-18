@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:video_call/Adhelper/ad_helper.dart';
 
 import '../../Adhelper/ad_config.dart';
@@ -43,8 +44,11 @@ class _MyPresentsScreenState extends State<MyPresentsScreen>
     }
   }
 
+  final _adController = NativeAdController();
+
   @override
   Widget build(BuildContext context) {
+    _adController.ad = AdHelper.loadNativeAd(adController: _adController);
     return WillPopScope(
       onWillPop: () async {
         AdHelper.showInterstitialAd(onComplete: () {
@@ -79,6 +83,14 @@ class _MyPresentsScreenState extends State<MyPresentsScreen>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Text("Notifications", style: AppTextStyle.black24w700),
+              Container(
+                child: _adController.ad != null && _adController.adLoaded.isTrue
+                    ? SafeArea(
+                        child: SizedBox(
+                            height: 150,
+                            child: AdWidget(ad: _adController.ad!)))
+                    : null,
+              ),
               Container(
                 height: 32.h,
                 decoration: BoxDecoration(

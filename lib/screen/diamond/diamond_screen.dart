@@ -98,12 +98,28 @@ class _DiamondScreenState extends State<DiamondScreen>
                   children: List.generate(
                     diamond.length,
                     (index) {
-                      return GestureDetector(
-                        onTap: () {},
-                        child: listTimeshow(
-                            title: "Get ${diamond[index]["diamond"]} Diamond",
-                            trailing: "Rs.${diamond[index]["amount"]}",
-                            subtitle: ""),
+                      return Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {},
+                            child: listTimeshow(
+                                title:
+                                    "Get ${diamond[index]["diamond"]} Diamond",
+                                trailing: "Rs.${diamond[index]["amount"]}",
+                                subtitle: ""),
+                          ),
+                          if (index > 3)
+                            Container(
+                              child: _adController.ad != null &&
+                                      _adController.adLoaded.isTrue
+                                  ? SafeArea(
+                                      child: SizedBox(
+                                          height: 150,
+                                          child:
+                                              AdWidget(ad: _adController.ad!)))
+                                  : null,
+                            ),
+                        ],
                       );
                     },
                   ),

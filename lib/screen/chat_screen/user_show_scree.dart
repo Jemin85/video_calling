@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:video_call/Adhelper/ad_config.dart';
 import 'package:video_call/routes/app_pages.dart';
 import 'package:video_call/screen/chat_screen/chat_con.dart';
@@ -44,8 +45,11 @@ class _UserShowScreenState extends State<UserShowScreen>
     }
   }
 
+  final _adController = NativeAdController();
+
   @override
   Widget build(BuildContext context) {
+    _adController.ad = AdHelper.loadNativeAd(adController: _adController);
     return WillPopScope(
       onWillPop: () async {
         AdHelper.showInterstitialAd(onComplete: () {
@@ -73,11 +77,13 @@ class _UserShowScreenState extends State<UserShowScreen>
         ),
         body: Column(
           children: [
-            if (Config.hideAds)
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: NativeAdWidget(),
-              ),
+            Container(
+              child: _adController.ad != null && _adController.adLoaded.isTrue
+                  ? SafeArea(
+                      child: SizedBox(
+                          height: 150, child: AdWidget(ad: _adController.ad!)))
+                  : null,
+            ),
             Expanded(child: Obx(
               () {
                 return SingleChildScrollView(
@@ -90,8 +96,7 @@ class _UserShowScreenState extends State<UserShowScreen>
                         return ListTile(
                           onTap: () {
                             AdHelper.showInterstitialAd(onComplete: () {
-                              Get.toNamed(AppPages.showchat,
-                                  arguments: object);
+                              Get.toNamed(AppPages.showchat, arguments: object);
                             });
                           },
                           contentPadding: const EdgeInsets.all(15),

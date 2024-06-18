@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:video_call/Adhelper/ad_helper.dart';
 import 'package:video_call/routes/app_pages.dart';
 import 'package:video_call/screen/home_screen/home_con.dart';
@@ -101,15 +102,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         // Insert an ad every 3rd item
                         // return NativeAdWidget();
 
-                        return !Config.hideAds
-                            ? const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: NativeAdWidget(),
-                              )
-                            : Container(
-                                height: 0,
-                                color: Colors.white,
-                              );
+                        return Container(
+                          child: _adController.ad != null &&
+                                  _adController.adLoaded.isTrue
+                              ? SafeArea(
+                                  child: SizedBox(
+                                      height: 150,
+                                      child: AdWidget(ad: _adController.ad!)))
+                              : null,
+                        );
                       } else {
                         // Calculate the actual product index
                         int productIndex = index - (index ~/ 3);

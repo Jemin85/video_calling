@@ -44,6 +44,7 @@ class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    print("---------------${Config.hideAds}");
     return WillPopScope(
       onWillPop: () async {
         AdHelper.showInterstitialAd(onComplete: () {
@@ -134,7 +135,7 @@ class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
                       weight: FontWeight.w400,
                       fontSize: 14.sp,
                     ),
-                    if (Config.hideAds)
+                    if (!Config.hideAds)
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         child: NativeAdWidget(),

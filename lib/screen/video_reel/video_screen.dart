@@ -106,7 +106,7 @@ class _VideoShowScreenState extends State<VideoShowScreen> {
                   // _controller.value.aspectRatio,
                   child: VideoPlayer(_controller),
                 )
-              : Container(),
+              : const CircularProgressIndicator(color: white),
         ),
     );
   }

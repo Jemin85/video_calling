@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:video_call/Adhelper/ad_helper.dart';
 import 'package:video_call/routes/app_pages.dart';
 import 'package:video_call/screen/home_screen/home_con.dart';
@@ -41,10 +42,10 @@ class _ProfileScreenState extends State<ProfileScreen>
         });
       }
     }
-  }
+  }  final _adController = NativeAdController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { _adController.ad = AdHelper.loadNativeAd(adController: _adController);
     return WillPopScope(
       onWillPop: () async {
         AdHelper.showInterstitialAd(onComplete: () {
@@ -160,6 +161,14 @@ class _ProfileScreenState extends State<ProfileScreen>
                       },
                       child: commanTile(icon: Icons.diamond, title: "Diamond"),
                     ),
+                    Container(
+                child: _adController.ad != null && _adController.adLoaded.isTrue
+                    ? SafeArea(
+                        child: SizedBox(
+                            height: 150,
+                            child: AdWidget(ad: _adController.ad!)))
+                    : null,
+              ),
                     GestureDetector(
                       onTap: () {
                         AdHelper.showInterstitialAd(onComplete: () {

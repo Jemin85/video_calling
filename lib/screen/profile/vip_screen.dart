@@ -106,8 +106,8 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if(!Config.hideAds)
                 Container(
+                  margin: const EdgeInsets.symmetric(vertical: 15),
                   child:
                       _adController.ad != null && _adController.adLoaded.isTrue
                           ? SafeArea(
@@ -146,6 +146,16 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
                       trailing: "RS.999 Only"),
                 ),
                 const SizedBox(height: 20),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 15),
+                  child:
+                      _adController.ad != null && _adController.adLoaded.isTrue
+                          ? SafeArea(
+                              child: SizedBox(
+                                  height: 150,
+                                  child: AdWidget(ad: _adController.ad!)))
+                          : null,
+                ),
                 CustomText(
                   text: "Member Privieges",
                   weight: FontWeight.w600,

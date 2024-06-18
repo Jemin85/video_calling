@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:video_call/common/colors.dart';
 import 'package:video_call/routes/app_pages.dart';
 import 'package:video_call/screen/home_screen/home_con.dart';
@@ -60,10 +61,11 @@ class _VisitorScreemState extends State<VisitorScreem>
     List randomItems = selectedIndices.map((index) => list[index]).toList();
 
     return randomItems;
-  }
+  }  final _adController = NativeAdController();
 
   @override
   Widget build(BuildContext context) {
+     _adController.ad = AdHelper.loadNativeAd(adController: _adController);
     return WillPopScope(
       onWillPop: () async {
         AdHelper.showInterstitialAd(onComplete: () {
@@ -91,6 +93,14 @@ class _VisitorScreemState extends State<VisitorScreem>
         ),
         body: Column(
           children: [
+            Container( margin: const EdgeInsets.symmetric(vertical: 15),
+                child: _adController.ad != null && _adController.adLoaded.isTrue
+                    ? SafeArea(
+                        child: SizedBox(
+                            height: 150,
+                            child: AdWidget(ad: _adController.ad!)))
+                    : null,
+              ),
             GridView(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),

@@ -76,7 +76,6 @@ class _MainHomeScreenState extends State<MainHomeScreen>
                         weight: FontWeight.w700,
                         align: TextAlign.center,
                       ))),
-              if(!Config.hideAds)
               Container(
                 child: _adController.ad != null && _adController.adLoaded.isTrue
                     ? SafeArea(
