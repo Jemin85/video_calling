@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:video_call/Adhelper/ad_config.dart';
 import 'package:video_call/common/colors.dart';
+import 'package:video_call/common/msg.dart';
 
 import '../../Adhelper/ad_helper.dart';
 
@@ -101,7 +102,10 @@ class _DiamondScreenState extends State<DiamondScreen>
                       return Column(
                         children: [
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              MassageBox.showMag(
+                                  "Service is temporary unavailable");
+                            },
                             child: listTimeshow(
                                 title:
                                     "Get ${diamond[index]["diamond"]} Diamond",

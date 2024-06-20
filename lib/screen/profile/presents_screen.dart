@@ -113,9 +113,7 @@ class _MyPresentsScreenState extends State<MyPresentsScreen>
                     borderRadius: BorderRadius.circular(6),
                     color: greenColor,
                   ),
-                  onTap: (val) {
-                    // selectSeatController.selectindex(val);
-                  },
+                 
                   tabs: const [
                     Tab(text: 'Transactions'),
                     Tab(text: 'Messages'),

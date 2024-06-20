@@ -75,7 +75,7 @@ class _ShowChatScreenState extends State<ShowChatScreen>
               child: const Icon(Icons.arrow_back_ios_new)),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: 2 == 1
+        floatingActionButton: 1 == 1
             ? GestureDetector(
                 onTap: () {
                   AdHelper.showInterstitialAd(onComplete: () {

@@ -6,6 +6,7 @@ import 'package:video_call/Adhelper/ad_config.dart';
 import 'package:video_call/common/colors.dart';
 
 import '../../Adhelper/ad_helper.dart';
+import '../../common/msg.dart';
 
 class VIPScreen extends StatefulWidget {
   const VIPScreen({super.key});
@@ -119,6 +120,7 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
                 GestureDetector(
                   onTap: () {
                     AdHelper.showInterstitialAd(onComplete: () {});
+                      MassageBox.showMag("Service is temporary unavailable");
                   },
                   child: listTimeshow(
                       title: "VIP 1 month",
@@ -129,6 +131,7 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
                 GestureDetector(
                   onTap: () {
                     AdHelper.showInterstitialAd(onComplete: () {});
+                      MassageBox.showMag("Service is temporary unavailable");
                   },
                   child: listTimeshow(
                       title: "VIP 6 Month",
@@ -139,6 +142,7 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
                 GestureDetector(
                   onTap: () {
                     AdHelper.showInterstitialAd(onComplete: () {});
+                      MassageBox.showMag("Service is temporary unavailable");
                   },
                   child: listTimeshow(
                       title: "VIP 1 Year",

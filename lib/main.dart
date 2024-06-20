@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
         //             ? AppPages.login
         //             : AppPages.indroduction,
         // initialRoute: usetLogin ? AppPages.homeScreen : AppPages.login,
-        initialRoute: AppPages.mainHome,
+        initialRoute: AppPages.splash,
         getPages: AppPages.routes,
       ),
     );

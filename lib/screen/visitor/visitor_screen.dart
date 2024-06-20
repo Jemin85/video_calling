@@ -118,7 +118,7 @@ class _VisitorScreemState extends State<VisitorScreem>
                     onTap: () async {
                       AdHelper.showInterstitialAd(onComplete: () {
                         if (index < 3) {
-                          Get.toNamed(AppPages.userScreen,arguments: data);
+                          Get.toNamed(AppPages.userScreen, arguments: data);
                         } else {
                           Get.toNamed(AppPages.vipScreen);
                         }
@@ -169,7 +169,9 @@ class _VisitorScreemState extends State<VisitorScreem>
             const SizedBox(height: 15),
             GestureDetector(
               onTap: () {
-                Get.toNamed(AppPages.vipScreen);
+                AdHelper.showInterstitialAd(onComplete: () {
+                  Get.toNamed(AppPages.vipScreen);
+                });
               },
               child: Container(
                 alignment: Alignment.center,
