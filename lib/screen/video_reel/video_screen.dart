@@ -84,7 +84,9 @@ class _VideoShowScreenState extends State<VideoShowScreen> {
   @override
   void initState() {
     _controller = VideoPlayerController.networkUrl(
-        Uri.parse('${widget.data["video"]}'),
+        Uri.parse(Config.hideAds
+            ? "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+            : '${widget.data["video"]}'),
         videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: false))
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
@@ -100,14 +102,14 @@ class _VideoShowScreenState extends State<VideoShowScreen> {
   Widget build(BuildContext context) {
     return Center(
       child: LayoutBuilder(
-          builder: (context, constraints) => _controller.value.isInitialized
-              ? AspectRatio(
-                  aspectRatio: constraints.maxWidth / constraints.maxHeight,
-                  // _controller.value.aspectRatio,
-                  child: VideoPlayer(_controller),
-                )
-              : const CircularProgressIndicator(color: white),
-        ),
+        builder: (context, constraints) => _controller.value.isInitialized
+            ? AspectRatio(
+                aspectRatio: constraints.maxWidth / constraints.maxHeight,
+                // _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              )
+            : const CircularProgressIndicator(color: white),
+      ),
     );
   }
 

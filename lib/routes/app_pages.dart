@@ -5,6 +5,7 @@ import 'package:video_call/screen/introduction/splash_screen.dart';
 import 'package:video_call/screen/login/login_screen.dart';
 import 'package:video_call/screen/profile/presents_screen.dart';
 import 'package:video_call/screen/profile/profile_screen.dart';
+import 'package:video_call/screen/profile/tearm_condition.dart';
 import 'package:video_call/screen/user_screen/user_screen.dart';
 import 'package:video_call/screen/profile/vip_screen.dart';
 import 'package:video_call/screen/video_reel/video_screen.dart';
@@ -36,6 +37,7 @@ class AppPages {
   static const visitor = Routes.visitor;
   static const splash = Routes.splash;
   static const myPresents = Routes.myPresents;
+  static const tearmCondition = Routes.tearmCondition;
 
   static const webHome = Routes.webHome;
   static const photoAdd = Routes.photoAdd;
@@ -56,10 +58,13 @@ class AppPages {
     GetPage(name: _Paths.splash, page: () => const SplashScreen()),
     GetPage(name: _Paths.webHome, page: () => const WebHomeScreen()),
     GetPage(name: _Paths.myPresents, page: () => const MyPresentsScreen()),
-
     GetPage(
       name: _Paths.photoAdd,
       page: () => const PhotosAddScreen(),
+    ),
+    GetPage(
+      name: _Paths.tearmCondition,
+      page: () => const TearmAndConditions(),
     ),
     GetPage(
       name: _Paths.uploadReels,

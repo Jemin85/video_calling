@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:video_call/Adhelper/ad_config.dart';
 import 'package:video_call/common/colors.dart';
+import 'package:video_call/routes/app_pages.dart';
 
 import '../../Adhelper/ad_helper.dart';
 import '../../common/msg.dart';
@@ -105,7 +106,7 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
           padding: const EdgeInsets.all(15),
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 15),
@@ -120,7 +121,7 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
                 GestureDetector(
                   onTap: () {
                     AdHelper.showInterstitialAd(onComplete: () {});
-                      MassageBox.showMag("Service is temporary unavailable");
+                    MassageBox.showMag("Service is temporary unavailable");
                   },
                   child: listTimeshow(
                       title: "VIP 1 month",
@@ -131,7 +132,7 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
                 GestureDetector(
                   onTap: () {
                     AdHelper.showInterstitialAd(onComplete: () {});
-                      MassageBox.showMag("Service is temporary unavailable");
+                    MassageBox.showMag("Service is temporary unavailable");
                   },
                   child: listTimeshow(
                       title: "VIP 6 Month",
@@ -142,14 +143,29 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
                 GestureDetector(
                   onTap: () {
                     AdHelper.showInterstitialAd(onComplete: () {});
-                      MassageBox.showMag("Service is temporary unavailable");
+                    MassageBox.showMag("Service is temporary unavailable");
                   },
                   child: listTimeshow(
                       title: "VIP 1 Year",
                       subtitle: "Rs. 1299 one year",
                       trailing: "RS.999 Only"),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    AdHelper.showInterstitialAd(onComplete: () {
+                      Get.toNamed(AppPages.tearmCondition, arguments: false);
+                    });
+                  },
+                  child: CustomText(
+                    text: "Terms and Conditions",
+                    align: TextAlign.center,
+                    color: greenColor,
+                    fontSize: 14.sp,
+                    weight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 10),
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 15),
                   child:

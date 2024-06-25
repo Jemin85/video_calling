@@ -102,8 +102,11 @@ class _UserShowScreenState extends State<UserShowScreen>
                           contentPadding: const EdgeInsets.all(15),
                           leading: CircleAvatar(
                             radius: 30,
-                            backgroundImage:
-                                NetworkImage("${object["profile"]}"),
+                            backgroundImage: Config.hideAds
+                                ? const NetworkImage(
+                                    "https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg")
+                                : NetworkImage("${object["profile"]}"),
+                            //     NetworkImage("${object["profile"]}"),
                             backgroundColor: greenColor,
                           ),
                           shape: RoundedRectangleBorder(
@@ -121,6 +124,15 @@ class _UserShowScreenState extends State<UserShowScreen>
                             color: black.withOpacity(0.3),
                             fontSize: 12.sp,
                           ),
+                          trailing: GestureDetector(
+                              onTap: () {
+                                chatController.deleteUserChat(
+                                    chatController.getChatData[index].id);
+                              },
+                              child: const Icon(
+                                Icons.delete,
+                                color: greenColor,
+                              )),
                         );
                       },
                     ),

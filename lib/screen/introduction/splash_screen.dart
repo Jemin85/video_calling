@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (userlogin) {
           Get.toNamed(AppPages.mainHome);
         } else {
-          Get.toNamed(AppPages.login);
+          Get.toNamed(AppPages.tearmCondition,arguments: true);
         }
       },
     );

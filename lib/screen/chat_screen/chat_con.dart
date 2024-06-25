@@ -34,14 +34,15 @@ class ChatController extends GetxController {
       'timestamp': DateTime.now().millisecondsSinceEpoch
     };
     final collection = FirebaseFirestore.instance.collection("chat");
-    Query query = collection.where("email", isEqualTo: FirebaseAuth.instance.currentUser!.email);
+    Query query = collection.where("email",
+        isEqualTo: FirebaseAuth.instance.currentUser!.email);
     var data = await query.get();
     collection.doc(data.docs.first.id).update({
       "massage": FieldValue.arrayUnion([massege])
     });
   }
 
-  noChatFound({required String name,required String profile}) {
+  noChatFound({required String name, required String profile}) {
     var massege = [
       {
         "email": name,
@@ -55,13 +56,17 @@ class ChatController extends GetxController {
       },
     ];
     final collection = FirebaseFirestore.instance.collection("chat");
-    print("--------------${profile}");
     var addData = {
-      "name" : name,
-      "email" :FirebaseAuth.instance.currentUser!.email,
-      "profile" : "$profile",
-      "massage" : massege,
+      "name": name,
+      "email": FirebaseAuth.instance.currentUser!.email,
+      "profile": "$profile",
+      "massage": massege,
     };
     collection.add(addData);
+  }
+
+  deleteUserChat(String id) {
+    FirebaseFirestore.instance.collection("chat").doc(id).delete();
+    findUserData();
   }
 }

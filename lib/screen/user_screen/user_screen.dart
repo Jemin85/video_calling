@@ -111,9 +111,12 @@ class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
                 color: white,
                 borderRadius:
                     const BorderRadius.vertical(bottom: Radius.circular(20)),
-                image: DecorationImage(
-                    image: NetworkImage("${userData["photo"]}"),
-                    fit: BoxFit.cover),
+              image: DecorationImage(
+                    image: Config.hideAds
+                        ? const NetworkImage(
+                            "https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg")
+                        : NetworkImage("${userData["photo"]}"),
+                    fit: Config.hideAds ? BoxFit.contain : BoxFit.cover),
               ),
             ),
             Expanded(

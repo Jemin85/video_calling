@@ -61,11 +61,13 @@ class _VisitorScreemState extends State<VisitorScreem>
     List randomItems = selectedIndices.map((index) => list[index]).toList();
 
     return randomItems;
-  }  final _adController = NativeAdController();
+  }
+
+  final _adController = NativeAdController();
 
   @override
   Widget build(BuildContext context) {
-     _adController.ad = AdHelper.loadNativeAd(adController: _adController);
+    _adController.ad = AdHelper.loadNativeAd(adController: _adController);
     return WillPopScope(
       onWillPop: () async {
         AdHelper.showInterstitialAd(onComplete: () {
@@ -93,14 +95,14 @@ class _VisitorScreemState extends State<VisitorScreem>
         ),
         body: Column(
           children: [
-            Container( margin: const EdgeInsets.symmetric(vertical: 15),
-                child: _adController.ad != null && _adController.adLoaded.isTrue
-                    ? SafeArea(
-                        child: SizedBox(
-                            height: 150,
-                            child: AdWidget(ad: _adController.ad!)))
-                    : null,
-              ),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 15),
+              child: _adController.ad != null && _adController.adLoaded.isTrue
+                  ? SafeArea(
+                      child: SizedBox(
+                          height: 150, child: AdWidget(ad: _adController.ad!)))
+                  : null,
+            ),
             GridView(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -128,7 +130,10 @@ class _VisitorScreemState extends State<VisitorScreem>
                       children: [
                         CircleAvatar(
                           radius: 55,
-                          backgroundImage: NetworkImage("${data["photo"]}"),
+                          backgroundImage: Config.hideAds
+                              ? const NetworkImage(
+                                  "https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg")
+                              : NetworkImage("${data["profile"]}"),
                           child: index < 3
                               ? null
                               : Center(

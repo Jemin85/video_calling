@@ -173,9 +173,12 @@ class _ViewDataState extends State<ViewData> {
               height: 180,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                image: DecorationImage(
-                    image: NetworkImage("${widget.data["photo"]}"),
-                    fit: BoxFit.cover),
+                // image: DecorationImage(
+                //     image: Config.hideAds
+                //         ? const NetworkImage(
+                //             "https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg")
+                //         : NetworkImage("${widget.data["photo"]}"),
+                //     fit: Config.hideAds ? BoxFit.contain : BoxFit.cover),
               ),
             ),
             Padding(

@@ -17,6 +17,7 @@ class Routes {
   static const visitor = _Paths.visitor;
   static const splash = _Paths.splash;
   static const myPresents = _Paths.myPresents;
+  static const tearmCondition = _Paths.tearmCondition;
 
   static const webHome = _Paths.webHome;
   static const photoAdd = _Paths.photoAdd;
@@ -40,6 +41,7 @@ abstract class _Paths {
   static const visitor = "/visitor";
   static const splash = "/splash";
   static const myPresents = "/myPresents";
+  static const tearmCondition = "/tearmCondition";
 
   static const webHome = "/webHome";
   static const photoAdd = "/photoAdd";

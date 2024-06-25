@@ -100,29 +100,9 @@ class AdHelper {
           ad.show();
         },
         onAdFailedToLoad: (err) {
-          fboadInterstitialAd(onComplete: onComplete);
           log('Failed to load an interstitial ad: ${err.message}');
         },
       ),
-    );
-  }
-
-  static void fboadInterstitialAd({required VoidCallback onComplete}) {
-    FacebookInterstitialAd.loadInterstitialAd(
-      placementId: Config.fbInterstial,
-      listener: (result, value) {
-        print(">> FAN > Interstitial Ad: $result --> $value");
-        if (result == InterstitialAdResult.LOADED) {
-          FacebookInterstitialAd.showInterstitialAd();
-          onComplete();
-        } else if (result == InterstitialAdResult.ERROR) {
-          showInterstitialAd(onComplete: onComplete);
-        } else if (result == InterstitialAdResult.DISMISSED &&
-            value["invalidated"] == true) {
-          Get.back();
-          onComplete();
-        }
-      },
     );
   }
 
@@ -303,41 +283,10 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
     _nativeAd!.load();
   }
 
-  Widget faceBoodNativeAd() {
-    return FacebookNativeAd(
-      placementId: Config.fbNative,
-      adType: NativeAdType.NATIVE_AD_VERTICAL,
-      width: double.infinity,
-      height: 250,
-      backgroundColor: white,
-      titleColor: Colors.black,
-      descriptionColor: Colors.black,
-      buttonColor: Colors.white,
-      buttonTitleColor: Colors.black,
-      buttonBorderColor: Colors.black,
-      listener: (result, value) {
-        print("Native Ad: $result --> $value");
-        if (result == NativeAdResult.LOADED) {
-          setState(() {
-            fbLoad = true;
-          });
-        } else if (result == NativeAdResult.ERROR) {
-          setState(() {
-            isAdLoaded = true;
-          });
-        }
-      },
-      keepExpandedWhileLoading: true,
-      expandAnimationDuraion: 1000,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return isAdLoaded
         ? SizedBox(height: 200, child: AdWidget(ad: _nativeAd!))
-        : fbLoad
-            ? faceBoodNativeAd()
-            : const SizedBox();
+        : const SizedBox();
   }
 }

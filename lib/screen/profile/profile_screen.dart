@@ -42,10 +42,13 @@ class _ProfileScreenState extends State<ProfileScreen>
         });
       }
     }
-  }  final _adController = NativeAdController();
+  }
+
+  final _adController = NativeAdController();
 
   @override
-  Widget build(BuildContext context) { _adController.ad = AdHelper.loadNativeAd(adController: _adController);
+  Widget build(BuildContext context) {
+    _adController.ad = AdHelper.loadNativeAd(adController: _adController);
     return WillPopScope(
       onWillPop: () async {
         AdHelper.showInterstitialAd(onComplete: () {
@@ -162,13 +165,14 @@ class _ProfileScreenState extends State<ProfileScreen>
                       child: commanTile(icon: Icons.diamond, title: "Diamond"),
                     ),
                     Container(
-                child: _adController.ad != null && _adController.adLoaded.isTrue
-                    ? SafeArea(
-                        child: SizedBox(
-                            height: 150,
-                            child: AdWidget(ad: _adController.ad!)))
-                    : null,
-              ),
+                      child: _adController.ad != null &&
+                              _adController.adLoaded.isTrue
+                          ? SafeArea(
+                              child: SizedBox(
+                                  height: 150,
+                                  child: AdWidget(ad: _adController.ad!)))
+                          : null,
+                    ),
                     GestureDetector(
                       onTap: () {
                         AdHelper.showInterstitialAd(onComplete: () {
@@ -187,6 +191,16 @@ class _ProfileScreenState extends State<ProfileScreen>
                         });
                       },
                       child: commanTile(icon: Icons.person_4, title: "Visitor"),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        AdHelper.showInterstitialAd(onComplete: () {
+                          //
+                          Get.toNamed(AppPages.tearmCondition,arguments: false);
+                        });
+                      },
+                      child: commanTile(
+                          icon: Icons.note, title: "Terms and Conditions"),
                     ),
                     if (homeController.userLogin())
                       GestureDetector(

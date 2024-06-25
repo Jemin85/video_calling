@@ -80,6 +80,7 @@ class MyApp extends StatelessWidget {
             centerTitle: true,
             // backgroundColor: AppColors.whiteColors,
             elevation: 0,
+            surfaceTintColor: Colors.transparent,
             titleTextStyle: TextStyle(
               fontSize: 16,
               // color: AppColors.darkBlueColors,
