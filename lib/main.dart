@@ -11,7 +11,7 @@ import 'routes/app_pages.dart';
 Future<void> firebaseMessengingHandle(RemoteMessage message) async {
   await FirebaseMessaging.instance.subscribeToTopic("all");
   await Firebase.initializeApp();
-  // print("------------------${message.data}");
+  print("------------------${message.data}");
   NotificationService.showNotification(message);
 }
 
@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
         //             ? AppPages.login
         //             : AppPages.indroduction,
         // initialRoute: usetLogin ? AppPages.homeScreen : AppPages.login,
-        initialRoute: AppPages.splash,
+        initialRoute: AppPages.mainHome,
         getPages: AppPages.routes,
       ),
     );

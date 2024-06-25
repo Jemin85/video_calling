@@ -101,15 +101,36 @@ class _VideoShowScreenState extends State<VideoShowScreen> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: LayoutBuilder(
-        builder: (context, constraints) => _controller.value.isInitialized
-            ? AspectRatio(
-                aspectRatio: constraints.maxWidth / constraints.maxHeight,
-                // _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
-              )
-            : const CircularProgressIndicator(color: white),
-      ),
+      child: !_controller.value.isInitialized
+          ? const CircularProgressIndicator(color: white)
+          : Stack(
+              alignment: Alignment.center,
+              fit: StackFit.expand,
+              children: [
+                LayoutBuilder(
+                    builder: (context, constraints) => AspectRatio(
+                          aspectRatio: _controller.value.aspectRatio,
+                          // _controller.value.aspectRatio,
+                          child: VideoPlayer(_controller),
+                        )),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child: Container(
+                    padding: EdgeInsets.all(15),
+                    child: Column(
+                      children: [
+                        CustomText(
+                          text: "sdfsdfds",
+                          color: white,
+                          fontSize: 20,
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
     );
   }
 

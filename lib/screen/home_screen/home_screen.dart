@@ -93,50 +93,108 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
             body: homeController.currantIndex.value != 0
                 ? pages[homeController.currantIndex.value]
-                : ListView.builder(
+                : SingleChildScrollView(
                     padding: const EdgeInsets.all(15),
-                    itemCount: (homeController.photos.length ~/ 2) *
-                        3, // Total items, accounting for ads
-                    itemBuilder: (context, index) {
-                      if ((index + 1) % 3 == 0) {
-                        // Insert an ad every 3rd item
-                        // return NativeAdWidget();
+                    child: Column(
+                      children: [
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: List.generate(
+                              homeController.photos.length - 10,
+                              (index) {
+                                var data = homeController.photos.reversed
+                                    .toList()[index];
+                                return GestureDetector(
+                                  onTap: (){
+                                    AdHelper.showInterstitialAd(onComplete: (){
+                                      Get.toNamed(AppPages.videoReels);
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 80,
+                                    width: 80,
+                                    padding: const EdgeInsets.all(3),
+                                    margin: EdgeInsets.only(
+                                        left: index == 0 ? 0 : 10, bottom: 20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      gradient: const LinearGradient(
+                                        begin: Alignment.topRight,
+                                        end: Alignment.bottomLeft,
+                                        stops: [0.1, 0.5],
+                                        colors: [greenColor, mendicolor],
+                                      ),
+                                    ),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          image: DecorationImage(
+                                              image: Config.hideAds
+                                                  ? const NetworkImage(
+                                                      "https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg")
+                                                  : NetworkImage(
+                                                      "${data["photo"]}"),
+                                              fit: BoxFit.cover,
+                                              alignment: Alignment.topCenter)),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        Column(
+                          children: List.generate(
+                            (homeController.photos.length ~/ 2) * 3,
+                            (index) {
+                              if ((index + 1) % 3 == 0) {
+                                // Insert an ad every 3rd item
+                                // return NativeAdWidget();
 
-                        return Container(
-                          child: _adController.ad != null &&
-                                  _adController.adLoaded.isTrue
-                              ? SafeArea(
-                                  child: SizedBox(
-                                      height: 150,
-                                      child: AdWidget(ad: _adController.ad!)))
-                              : null,
-                        );
-                      } else {
-                        // Calculate the actual product index
-                        int productIndex = index - (index ~/ 3);
-                        // Create rows with two products
-                        if (productIndex % 2 == 0) {
-                          return Row(
-                            children: [
-                              Expanded(
-                                  child: ViewData(
-                                data: homeController.photos[productIndex].data()
-                                    as Map,
-                              )),
-                              if (productIndex + 1 <
-                                  homeController.photos.length)
-                                Expanded(
-                                    child: ViewData(
-                                  data: homeController.photos[productIndex + 1]
-                                      .data() as Map,
-                                ))
-                            ],
-                          );
-                        }
-                        // Skip creating a separate row for the second product in a pair
-                        return const SizedBox.shrink();
-                      }
-                    },
+                                return Container(
+                                  child: _adController.ad != null &&
+                                          _adController.adLoaded.isTrue
+                                      ? SafeArea(
+                                          child: SizedBox(
+                                              height: 150,
+                                              child: AdWidget(
+                                                  ad: _adController.ad!)))
+                                      : null,
+                                );
+                              } else {
+                                // Calculate the actual product index
+                                int productIndex = index - (index ~/ 3);
+                                // Create rows with two products
+                                if (productIndex % 2 == 0) {
+                                  return Row(
+                                    children: [
+                                      Expanded(
+                                          child: ViewData(
+                                        data: homeController
+                                            .photos[productIndex]
+                                            .data() as Map,
+                                      )),
+                                      if (productIndex + 1 <
+                                          homeController.photos.length)
+                                        Expanded(
+                                            child: ViewData(
+                                          data: homeController
+                                              .photos[productIndex + 1]
+                                              .data() as Map,
+                                        ))
+                                    ],
+                                  );
+                                }
+                                // Skip creating a separate row for the second product in a pair
+                                return const SizedBox.shrink();
+                              }
+                            },
+                          ),
+                        )
+                      ],
+                    ),
                   ),
           );
         },
@@ -173,12 +231,12 @@ class _ViewDataState extends State<ViewData> {
               height: 180,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                // image: DecorationImage(
-                //     image: Config.hideAds
-                //         ? const NetworkImage(
-                //             "https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg")
-                //         : NetworkImage("${widget.data["photo"]}"),
-                //     fit: Config.hideAds ? BoxFit.contain : BoxFit.cover),
+                image: DecorationImage(
+                    image: Config.hideAds
+                        ? const NetworkImage(
+                            "https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg")
+                        : NetworkImage("${widget.data["photo"]}"),
+                    fit: Config.hideAds ? BoxFit.contain : BoxFit.cover),
               ),
             ),
             Padding(
