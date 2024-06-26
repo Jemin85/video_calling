@@ -13,7 +13,10 @@ class TestingScreen extends StatefulWidget {
 class _TestingScreenState extends State<TestingScreen> {
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   final List<String> _productIds = [
-    'android.test.purchased',
+    'basic',
+    'silver',
+    'gold',
+    'platinum',
   ];
   late StreamSubscription<List<PurchaseDetails>> _subscription;
   List<ProductDetails> _products = [];
@@ -77,6 +80,7 @@ class _TestingScreenState extends State<TestingScreen> {
       } else if (purchaseDetails.status == PurchaseStatus.purchased) {
         _verifyAndDeliverProduct(purchaseDetails);
       } else if (purchaseDetails.status == PurchaseStatus.error) {
+        print("------------${purchaseDetails.status}---------");
         // Handle the error
       }
       if (purchaseDetails.pendingCompletePurchase) {

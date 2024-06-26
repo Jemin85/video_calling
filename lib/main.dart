@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'Adhelper/ad_config.dart';
-import 'Adhelper/ad_helper.dart';
+import 'package:video_call/testing.dart';
 import 'routes/app_pages.dart';
 
 Future<void> firebaseMessengingHandle(RemoteMessage message) async {
@@ -36,11 +35,11 @@ void main() async {
           storageBucket: "videocall-53a52.appspot.com",
           projectId: "videocall-53a52"));
 
-  AdHelper.initAds();
-  Config.initConfig();
+  // AdHelper.initAds();
+  // Config.initConfig();
 
-  FirebaseMessaging.onBackgroundMessage(firebaseMessengingHandle);   
-  await FirebaseMessaging.instance.subscribeToTopic("all");
+  // FirebaseMessaging.onBackgroundMessage(firebaseMessengingHandle);
+  // await FirebaseMessaging.instance.subscribeToTopic("all");
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     // print("------------------${message.data}");
@@ -52,19 +51,17 @@ void main() async {
     NotificationService.showNotification(message);
   });
 
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-      alert: true, badge: true, sound: true);
+  //   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  //     alert: true, badge: true, sound: true);
 
-  if (!Config.hideAds) {
-    AdHelper.loadAppOpenAd();
-  }
-
+  // if (!Config.hideAds) {
+  //   AdHelper.loadAppOpenAd();
+  // }
 
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  
   const MyApp({super.key});
 
   @override
@@ -89,7 +86,7 @@ class MyApp extends StatelessWidget {
           ),
           fontFamily: 'google_sans',
         ),
-        // home: const IntroductionScreen(),
+        home: const TestingScreen(),
         // initialRoute: // userlogin && user != null ? AppPages.adHomeScreen   : AppPages.adminLogin,
         //     userlogin && user != null
         //         ? AppPages.homeScreen
@@ -97,7 +94,7 @@ class MyApp extends StatelessWidget {
         //             ? AppPages.login
         //             : AppPages.indroduction,
         // initialRoute: usetLogin ? AppPages.homeScreen : AppPages.login,
-        initialRoute: AppPages.mainHome,
+        // initialRoute: AppPages.webHome,
         getPages: AppPages.routes,
       ),
     );

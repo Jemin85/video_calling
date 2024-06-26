@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:video_call/common/colors.dart';
 import 'package:video_call/screen/video_reel/video_con.dart';
@@ -59,7 +60,6 @@ class _VideoReelsScreenState extends State<VideoReelsScreen>
               scrollDirection: Axis.vertical,
               itemBuilder: (context, index) {
                 var object = videoController.videoReesl[index].data() as Map;
-                print("-----------${videoController.videoReesl.length}");
                 return VideoShowScreen(data: object);
               },
             ),
@@ -103,32 +103,109 @@ class _VideoShowScreenState extends State<VideoShowScreen> {
     return Center(
       child: !_controller.value.isInitialized
           ? const CircularProgressIndicator(color: white)
-          : Stack(
-              alignment: Alignment.center,
-              fit: StackFit.expand,
+          : Column(
               children: [
-                LayoutBuilder(
-                    builder: (context, constraints) => AspectRatio(
-                          aspectRatio: _controller.value.aspectRatio,
-                          // _controller.value.aspectRatio,
-                          child: VideoPlayer(_controller),
-                        )),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: Container(
-                    padding: EdgeInsets.all(15),
-                    child: Column(
-                      children: [
-                        CustomText(
-                          text: "sdfsdfds",
-                          color: white,
-                          fontSize: 20,
-                        )
-                      ],
+                Flexible(
+                  child: GestureDetector(
+                    onTap: () {
+                      if (_controller.value.isPlaying) {
+                        _controller.pause();
+                      } else {
+                        _controller.play();
+                      }
+                      setState(() {});
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        fit: StackFit.expand,
+                        children: [
+                          ShaderMask(
+                            shaderCallback: (rect) {
+                              return const LinearGradient(
+                                colors: [
+                                  Colors.black,
+                                  Colors.transparent,
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                stops: [0.7, 0.98],
+                              ).createShader(
+                                  Rect.fromLTRB(0, 0, rect.width, rect.height));
+                            },
+                            blendMode: BlendMode.dstIn,
+                            child: LayoutBuilder(
+                              builder: (context, constraints) => AspectRatio(
+                                aspectRatio: _controller.value.aspectRatio,
+                                // _controller.value.aspectRatio,
+                                child: VideoPlayer(_controller),
+                              ),
+                            ),
+                          ),
+                          if (!_controller.value.isPlaying)
+                            Positioned(
+                              top: 0,
+                              bottom: 0,
+                              left: 150,
+                              right: 150,
+                              child: CircleAvatar(
+                                radius: 30,
+                                backgroundColor: white.withOpacity(0.2),
+                                child: const Icon(Icons.play_arrow,
+                                    color: white, size: 50),
+                              ),
+                            ),
+                          Positioned(
+                            bottom: 15,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                                padding: const EdgeInsets.all(15),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CustomText(
+                                            text: "Bafs dsffs",
+                                            color: white,
+                                            fontSize: 20.sp,
+                                          ),
+                                          CustomText(
+                                            text: "Bafs dsffs",
+                                            color: white.withOpacity(0.5),
+                                            fontSize: 12.sp,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: (){},
+                                      child: Icon(
+                                        Icons.send,
+                                        color: white.withOpacity(0.9),
+                                        size: 30,
+                                      ),
+                                    ),
+                                  ],
+                                )
+
+                                ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                )
+                ),
+                VideoProgressIndicator(_controller,
+                    colors: VideoProgressColors(
+                        backgroundColor: Colors.white,
+                        playedColor: white.withOpacity(0.5),
+                        bufferedColor: black.withOpacity(0.5)),
+                    allowScrubbing: true)
               ],
             ),
     );
