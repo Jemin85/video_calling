@@ -27,7 +27,7 @@ class ChatController extends GetxController {
     super.onInit();
   }
 
-  addData({required String msg}) async {
+  addData({required String msg,required String name}) async {
     var massege = {
       "email": FirebaseAuth.instance.currentUser!.email,
       "msg": msg,

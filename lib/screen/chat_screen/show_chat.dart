@@ -134,8 +134,8 @@ class _ShowChatScreenState extends State<ShowChatScreen>
                         GestureDetector(
                           onTap: () {
                             if (chat.text.isNotEmpty) {
-                              chatController.addData(msg: chat.text);
-                              chat.clear();
+                              chatController.addData(msg: chat.text,name: "");
+                              // chat.clear();
                               setState(() {});
                             }
                           },

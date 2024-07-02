@@ -88,7 +88,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'google_sans',
         ),
         // home: const TestingScreen(),
-        // initialRoute: // userlogin && user != null ? AppPages.adHomeScreen   : AppPages.adminLogin,
+        // initialRoute: // userlogin && user != null ? AppPages.adHomeScreen : AppPages.adminLogin,
         //     userlogin && user != null
         //         ? AppPages.homeScreen
         //         : intro
