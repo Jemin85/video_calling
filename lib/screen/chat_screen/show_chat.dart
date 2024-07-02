@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:video_call/common/colors.dart';
 import 'package:video_call/routes/app_pages.dart';
 import 'package:video_call/screen/chat_screen/chat_con.dart';
+import 'package:video_call/screen/home_screen/home_con.dart';
 
 import '../../Adhelper/ad_config.dart';
 import '../../Adhelper/ad_helper.dart';
@@ -19,6 +20,7 @@ class ShowChatScreen extends StatefulWidget {
 class _ShowChatScreenState extends State<ShowChatScreen>
     with WidgetsBindingObserver {
   ChatController chatController = Get.find();
+  HomeController homeController = Get.find();
   TextEditingController chat = TextEditingController();
   ScrollController scrollController = ScrollController();
 
@@ -75,76 +77,82 @@ class _ShowChatScreenState extends State<ShowChatScreen>
               child: const Icon(Icons.arrow_back_ios_new)),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: 1 == 1
-            ? GestureDetector(
-                onTap: () {
-                  AdHelper.showInterstitialAd(onComplete: () {
-                    Get.toNamed(AppPages.vipScreen);
-                  });
-                },
-                child: Container(
-                  height: 55,
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: greenColor,
-                      borderRadius: BorderRadius.circular(30)),
-                  child: const CustomText(
-                    text: "Get VIP Only Rs.99",
-                    weight: FontWeight.w700,
-                    color: white,
-                  ),
-                ),
-              )
-            : Container(
-                color: white,
-                margin: const EdgeInsets.only(top: 15),
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: chat,
-                        cursorColor: black,
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                        decoration: InputDecoration(
-                          hintText: "Typing....",
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 17),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
+        floatingActionButton: Obx(
+          () {
+            return !homeController.userVipPurchased.value
+                ? GestureDetector(
+                    onTap: () {
+                      AdHelper.showInterstitialAd(onComplete: () {
+                        Get.toNamed(AppPages.vipScreen);
+                      });
+                    },
+                    child: Container(
+                      height: 55,
+                      width: double.infinity,
+                      margin:
+                          const EdgeInsets.only(top: 15, left: 15, right: 15),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: greenColor,
+                          borderRadius: BorderRadius.circular(30)),
+                      child: const CustomText(
+                        text: "Get VIP Only Rs.99",
+                        weight: FontWeight.w700,
+                        color: white,
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    GestureDetector(
-                      onTap: () {
-                        if (chat.text.isNotEmpty) {
-                          chatController.addData(msg: chat.text);
-                          chat.clear();
-                          setState(() {});
-                        }
-                      },
-                      child: const CircleAvatar(
-                        radius: 27,
-                        backgroundColor: greenColor,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 5),
-                          child: Icon(Icons.send, color: white),
+                  )
+                : Container(
+                    color: white,
+                    margin: const EdgeInsets.only(top: 15),
+                    padding:
+                        const EdgeInsets.only(left: 15, right: 15, top: 15),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: chat,
+                            cursorColor: black,
+                            style: const TextStyle(fontWeight: FontWeight.w700),
+                            decoration: InputDecoration(
+                              hintText: "Typing....",
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 17),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+                        const SizedBox(width: 10),
+                        GestureDetector(
+                          onTap: () {
+                            if (chat.text.isNotEmpty) {
+                              chatController.addData(msg: chat.text);
+                              chat.clear();
+                              setState(() {});
+                            }
+                          },
+                          child: const CircleAvatar(
+                            radius: 27,
+                            backgroundColor: greenColor,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5),
+                              child: Icon(Icons.send, color: white),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+          },
+        ),
         backgroundColor: white,
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -153,13 +161,16 @@ class _ShowChatScreenState extends State<ShowChatScreen>
             padding: const EdgeInsets.only(bottom: 90),
             physics: const AlwaysScrollableScrollPhysics(),
             child: StreamBuilder(
-              stream: chatController.findUserChatData(name: "${Get.arguments["name"]}"),
+              stream: chatController.findUserChatData(
+                  name: "${Get.arguments["name"]}"),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.data!.docs.isEmpty) {
-                  chatController.noChatFound(name: "${Get.arguments["name"]}",profile: "${Get.arguments["photo"]}");
+                  chatController.noChatFound(
+                      name: "${Get.arguments["name"]}",
+                      profile: "${Get.arguments["photo"]}");
                   return const Center(
                     child: CustomText(
                       text: "No chat found",
@@ -176,7 +187,8 @@ class _ShowChatScreenState extends State<ShowChatScreen>
                     chat.length,
                     (index) {
                       var object = chat[index];
-                      if (object["email"] == FirebaseAuth.instance.currentUser!.email) {
+                      if (object["email"] ==
+                          FirebaseAuth.instance.currentUser!.email) {
                         return Padding(
                           padding: EdgeInsets.only(
                               bottom: 10,

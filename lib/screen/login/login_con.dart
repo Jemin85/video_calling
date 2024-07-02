@@ -12,7 +12,7 @@ import '../../routes/app_pages.dart';
 class LoginController extends GetxController {
   var isload = false.obs;
 
-   Future<void> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     isload(true);
     SharedPreferences pref = await SharedPreferences.getInstance();
     String token = await FirebaseMessaging.instance.getToken() ?? "";
@@ -43,7 +43,7 @@ class LoginController extends GetxController {
           }
         }
         AdHelper.showInterstitialAd(onComplete: () {
-        Get.toNamed(AppPages.mainHome);
+          Get.toNamed(AppPages.mainHome);
         });
         isload(false);
       } else {
@@ -52,7 +52,8 @@ class LoginController extends GetxController {
           "name": googleUser.displayName ??
               "User${DateTime.now().millisecondsSinceEpoch.toStringAsFixed(5)}",
           "email": googleUser.email,
-          'balance': "0",
+          'is_purhcasd': false,
+          "sucription_id" : "",
           "profile": "${googleUser.photoUrl}",
           "pass": "",
           "clickCount": 0,

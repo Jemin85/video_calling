@@ -116,57 +116,67 @@ class _VisitorScreemState extends State<VisitorScreem>
                 visitor.length,
                 (index) {
                   var data = homeController.photos[index].data() as Map;
-                  return GestureDetector(
-                    onTap: () async {
-                      AdHelper.showInterstitialAd(onComplete: () {
-                        if (index < 3) {
-                          Get.toNamed(AppPages.userScreen, arguments: data);
-                        } else {
-                          Get.toNamed(AppPages.vipScreen);
-                        }
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 55,
-                          backgroundImage: Config.hideAds
-                              ? const NetworkImage(
-                                  "https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg")
-                              : NetworkImage("${data["profile"]}"),
-                          child: index < 3
-                              ? null
-                              : Center(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: BackdropFilter(
-                                      filter: ImageFilter.blur(
-                                          sigmaX: 10.0, sigmaY: 10.0),
-                                      child: ClipRRect(
-                                        child: Container(
-                                          height: 110,
-                                          width: 110,
-                                          alignment: Alignment.center,
-                                          child: CustomText(
-                                            text: "VIP",
-                                            color: white,
-                                            weight: FontWeight.w700,
-                                            fontSize: 18.sp,
+                  return Obx(
+                    () {
+                      return homeController.loading.value
+                          ? const SizedBox()
+                          : GestureDetector(
+                              onTap: () async {
+                                AdHelper.showInterstitialAd(onComplete: () {
+                                  if (index < 3) {
+                                    Get.toNamed(AppPages.userScreen,
+                                        arguments: data);
+                                  } else {
+                                    Get.toNamed(AppPages.vipScreen);
+                                  }
+                                });
+                              },
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 55,
+                                    backgroundImage: Config.hideAds
+                                        ? const NetworkImage(
+                                            "https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg")
+                                        : NetworkImage("${data["profile"]}"),
+                                    child: index < 3 ||
+                                            homeController
+                                                .userVipPurchased.value
+                                        ? null
+                                        : Center(
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              child: BackdropFilter(
+                                                filter: ImageFilter.blur(
+                                                    sigmaX: 10.0, sigmaY: 10.0),
+                                                child: ClipRRect(
+                                                  child: Container(
+                                                    height: 110,
+                                                    width: 110,
+                                                    alignment: Alignment.center,
+                                                    child: CustomText(
+                                                      text: "VIP",
+                                                      color: white,
+                                                      weight: FontWeight.w700,
+                                                      fontSize: 18.sp,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
                                   ),
-                                ),
-                        ),
-                        const SizedBox(height: 10),
-                        CustomText(
-                          text: "${data["name"]}",
-                          fontSize: 14.sp,
-                          weight: FontWeight.w700,
-                        )
-                      ],
-                    ),
+                                  const SizedBox(height: 10),
+                                  CustomText(
+                                    text: "${data["name"]}",
+                                    fontSize: 14.sp,
+                                    weight: FontWeight.w700,
+                                  )
+                                ],
+                              ),
+                            );
+                    },
                   );
                 },
               ),
@@ -184,8 +194,10 @@ class _VisitorScreemState extends State<VisitorScreem>
                 margin: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     color: greenColor, borderRadius: BorderRadius.circular(30)),
-                child: const CustomText(
-                  text: "Get VIP",
+                child: CustomText(
+                  text: homeController.userVipPurchased.value
+                      ? "Upgrade Plan"
+                      : "Get VIP",
                   color: white,
                   weight: FontWeight.w700,
                 ),

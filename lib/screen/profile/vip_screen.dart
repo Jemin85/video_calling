@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:video_call/Adhelper/ad_config.dart';
 import 'package:video_call/common/colors.dart';
 import 'package:video_call/routes/app_pages.dart';
+import 'package:video_call/screen/profile/profile_con.dart';
 
 import '../../Adhelper/ad_helper.dart';
 import '../../common/msg.dart';
@@ -17,7 +21,20 @@ class VIPScreen extends StatefulWidget {
 }
 
 class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
+  ProfileController profileController = Get.put(ProfileController());
   final _adController = NativeAdController();
+  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
+  final List<String> _productIds = [
+    'basic',
+    'silver',
+    'gold',
+    'platinum',
+    'test',
+    // 'com.video.callApp:android.test.purchased',
+  ];
+  late StreamSubscription<List<PurchaseDetails>> _subscription;
+  List<ProductDetails> _products = [];
+  bool _isAvailable = false;
   List member = [
     {
       "title": "Unlock chat restrictions",
@@ -49,6 +66,9 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
+    final purchaseUpdated = _inAppPurchase.purchaseStream;
+    _subscription = purchaseUpdated.listen(_onPurchaseUpdated);
+    _initialize();
     super.initState();
   }
 
@@ -85,11 +105,12 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
         appBar: AppBar(
           backgroundColor: yellowOpacity,
           surfaceTintColor: Colors.transparent,
-          toolbarHeight: 70,
+          // toolbarHeight: 70,
           leading: GestureDetector(
               onTap: () {
                 AdHelper.showInterstitialAd(onComplete: () {
                   Get.back();
+                  // profileController.purchaseProduct(subId: "test");
                 });
               },
               child: const Icon(
@@ -118,37 +139,26 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
                                   child: AdWidget(ad: _adController.ad!)))
                           : null,
                 ),
-                GestureDetector(
-                  onTap: () {
-                    AdHelper.showInterstitialAd(onComplete: () {});
-                    MassageBox.showMag("Service is temporary unavailable");
-                  },
-                  child: listTimeshow(
-                      title: "VIP 1 month",
-                      subtitle: "Rs. 149 one month",
-                      trailing: "RS.99 Only"),
-                ),
-                const SizedBox(height: 10),
-                GestureDetector(
-                  onTap: () {
-                    AdHelper.showInterstitialAd(onComplete: () {});
-                    MassageBox.showMag("Service is temporary unavailable");
-                  },
-                  child: listTimeshow(
-                      title: "VIP 6 Month",
-                      subtitle: "Rs. 799 six month",
-                      trailing: "RS.499 Only"),
-                ),
-                const SizedBox(height: 10),
-                GestureDetector(
-                  onTap: () {
-                    AdHelper.showInterstitialAd(onComplete: () {});
-                    MassageBox.showMag("Service is temporary unavailable");
-                  },
-                  child: listTimeshow(
-                      title: "VIP 1 Year",
-                      subtitle: "Rs. 1299 one year",
-                      trailing: "RS.999 Only"),
+                Column(
+                  children: List.generate(
+                    _products.length,
+                    (index) {
+                      return GestureDetector(
+                        onTap: () {
+                          AdHelper.showInterstitialAd(onComplete: () {
+                            _buyProduct(_products[index]);
+                          });
+                        },
+                        child: listTimeshow(
+                            title: _products[index].title.split("(")[0],
+                            subtitle: _products[index]
+                                .title
+                                .split("(")[1]
+                                .replaceAll(")", ""),
+                            trailing: _products[index].price),
+                      );
+                    },
+                  ),
                 ),
                 const SizedBox(height: 10),
                 GestureDetector(
@@ -230,26 +240,23 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
     return Card(
       color: white,
       child: Padding(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
         child: ListTile(
           contentPadding: EdgeInsets.zero,
           leading: const CircleAvatar(
             radius: 25,
             backgroundColor: greenColor,
-            child: Icon(
-              Icons.price_change,
-              color: white,
-            ),
+            child: Icon(Icons.price_change, color: white),
           ),
           title: CustomText(
             text: title,
             weight: FontWeight.w700,
-            fontSize: 16.sp,
+            fontSize: 14.sp,
           ),
           subtitle: CustomText(
             text: subtitle,
             weight: FontWeight.w700,
-            fontSize: 12.sp,
+            fontSize: 10.sp,
             color: greenColor,
             decoration: TextDecoration.lineThrough,
           ),
@@ -265,5 +272,73 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
         ),
       ),
     );
+  }
+
+  Future<void> _verifyAndDeliverProduct(PurchaseDetails purchaseDetails) async {
+    // Verify purchase with your server and deliver the product
+    // Here we assume the purchase is valid and mark it as delivered
+    print("-------dd------${purchaseDetails.productID}");
+    if (purchaseDetails.productID == 'test') {
+      profileController.purchaseProduct(subId: purchaseDetails.productID);
+    } else if (purchaseDetails.productID == 'platinum') {
+      // Deliver your product
+      profileController.purchaseProduct(subId: purchaseDetails.productID);
+    } else if (purchaseDetails.productID == 'gold') {
+      // Deliver your product
+      profileController.purchaseProduct(subId: purchaseDetails.productID);
+    } else if (purchaseDetails.productID == 'silver') {
+      // Deliver your product
+      profileController.purchaseProduct(subId: purchaseDetails.productID);
+    } else if (purchaseDetails.productID == 'basic') {
+      // Deliver your product
+      profileController.purchaseProduct(subId: purchaseDetails.productID);
+    }
+  }
+
+  void _buyProduct(ProductDetails productDetails) {
+    final purchaseParam = PurchaseParam(productDetails: productDetails);
+    _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
+  }
+
+  void _onPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+    for (var purchaseDetails in purchaseDetailsList) {
+      if (purchaseDetails.status == PurchaseStatus.pending) {
+        Get.back();
+        MassageBox.showMag("Subscription is Pending");
+        // Handle pending purchase
+      } else if (purchaseDetails.status == PurchaseStatus.purchased) {
+        _verifyAndDeliverProduct(purchaseDetails);
+      } else if (purchaseDetails.status == PurchaseStatus.error) {
+        Get.back();
+        MassageBox.showMag("Subscription Error Please Try Again");
+      }
+      if (purchaseDetails.pendingCompletePurchase) {
+        _inAppPurchase.completePurchase(purchaseDetails);
+      }
+    }
+  }
+
+  Future<void> _loadProducts() async {
+    final response =
+        await _inAppPurchase.queryProductDetails(_productIds.toSet());
+    if (response.notFoundIDs.isNotEmpty) {
+      // Handle the error
+    }
+    setState(() {
+      _products = response.productDetails;
+    });
+  }
+
+  Future<void> _initialize() async {
+    _isAvailable = await _inAppPurchase.isAvailable();
+    if (_isAvailable) {
+      _loadProducts();
+    }
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 }

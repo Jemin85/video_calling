@@ -52,6 +52,7 @@ class _MainHomeScreenState extends State<MainHomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    print("----------${homeController.userVipPurchased.value}");
     _adController.ad = AdHelper.loadNativeAd(adController: _adController);
     return Scaffold(
       backgroundColor: yellowOpacity,

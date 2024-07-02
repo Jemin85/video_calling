@@ -13,10 +13,11 @@ class TestingScreen extends StatefulWidget {
 class _TestingScreenState extends State<TestingScreen> {
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   final List<String> _productIds = [
-    'basic',
     'silver',
     'gold',
     'platinum',
+    'test',
+    // 'com.video.callApp:android.test.purchased',
   ];
   late StreamSubscription<List<PurchaseDetails>> _subscription;
   List<ProductDetails> _products = [];

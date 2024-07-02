@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:video_call/common/colors.dart';
+import 'package:video_call/common/msg.dart';
 import 'package:video_call/routes/app_pages.dart';
+import 'package:video_call/screen/home_screen/home_con.dart';
 
 import '../../Adhelper/ad_config.dart';
 import '../../Adhelper/ad_helper.dart';
@@ -15,6 +17,7 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
+  HomeController homeController = Get.find();
   Map userData = {};
 
   @override
@@ -68,38 +71,47 @@ class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
           surfaceTintColor: Colors.transparent,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              FloatingActionButton(
-                heroTag: "1",
-                onPressed: () {
-                  AdHelper.showInterstitialAd(onComplete: () {
-                    Get.toNamed(AppPages.vipScreen);
-                  });
-                },
-                backgroundColor: greenColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                child: const Icon(Icons.video_call, color: white),
+        floatingActionButton: Obx(
+          () {
+            return homeController.loading.value ? const SizedBox() : Padding(
+              padding: const EdgeInsets.all(15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FloatingActionButton(
+                    heroTag: "1",
+                    onPressed: () {
+                      AdHelper.showInterstitialAd(onComplete: () {
+                        if (homeController.userVipPurchased.value) {
+                          MassageBox.showMag(
+                              "Video Call Temorroty Not Available Please Try Again");
+                        } else {
+                          Get.toNamed(AppPages.vipScreen);
+                        }
+                      });
+                    },
+                    backgroundColor: greenColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    child: const Icon(Icons.video_call, color: white),
+                  ),
+                  const SizedBox(width: 15),
+                  FloatingActionButton(
+                    heroTag: "2",
+                    onPressed: () {
+                      AdHelper.showInterstitialAd(onComplete: () {
+                        Get.toNamed(AppPages.showchat, arguments: userData);
+                      });
+                    },
+                    backgroundColor: greenColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    child: const Icon(Icons.chat, color: white),
+                  ),
+                ],
               ),
-              const SizedBox(width: 15),
-              FloatingActionButton(
-                heroTag: "2",
-                onPressed: () {
-                  AdHelper.showInterstitialAd(onComplete: () {
-                    Get.toNamed(AppPages.showchat, arguments: userData);
-                  });
-                },
-                backgroundColor: greenColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                child: const Icon(Icons.chat, color: white),
-              ),
-            ],
-          ),
+            );
+          },
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -111,7 +123,7 @@ class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
                 color: white,
                 borderRadius:
                     const BorderRadius.vertical(bottom: Radius.circular(20)),
-              image: DecorationImage(
+                image: DecorationImage(
                     image: Config.hideAds
                         ? const NetworkImage(
                             "https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg")
@@ -192,8 +204,8 @@ class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
                       ),
                     ),
                     ListTile(
-                      leading:
-                          const Icon(Icons.line_weight_sharp, color: greenColor),
+                      leading: const Icon(Icons.line_weight_sharp,
+                          color: greenColor),
                       contentPadding: EdgeInsets.zero,
                       title: CustomText(
                         text: "Weight",
