@@ -22,7 +22,7 @@ class _TearmAndConditionsState extends State<TearmAndConditions> {
         toolbarHeight: 70,
         backgroundColor: yellowOpacity,
         automaticallyImplyLeading: false,
-        leading: Get.arguments
+        leading: Get.arguments || Get.arguments == null
             ? null
             : GestureDetector(
                 onTap: () {

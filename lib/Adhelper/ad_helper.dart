@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:get/get.dart';
@@ -16,7 +15,6 @@ class AdHelper {
   // for initializing ads sdk
   static Future<void> initAds() async {
     await MobileAds.instance.initialize();
-    await FacebookAudienceNetwork.init();
   }
 
   static InterstitialAd? _interstitialAd;
@@ -61,11 +59,6 @@ class AdHelper {
     _interstitialAd?.dispose();
     _interstitialAd = null;
     _interstitialAdLoaded = false;
-  }
-
-  static void _resetBannerAd() {
-    bannerAd?.dispose();
-    bannerAd = null;
   }
 
   static void showInterstitialAd({required VoidCallback onComplete}) {

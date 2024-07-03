@@ -62,16 +62,16 @@ class _ProfileScreenState extends State<ProfileScreen>
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
-          leading: GestureDetector(
-              onTap: () {
-                AdHelper.showInterstitialAd(onComplete: () {
-                  Get.back();
-                });
-              },
-              child: const Icon(
-                Icons.arrow_back_ios,
-                color: black,
-              )),
+          // leading: GestureDetector(
+          //     onTap: () {
+          //       AdHelper.showInterstitialAd(onComplete: () {
+          //         Get.back();
+          //       });
+          //     },
+          //     child: const Icon(
+          //       Icons.arrow_back_ios,
+          //       color: black,
+          //     )),
         ),
         body: Column(
           children: [

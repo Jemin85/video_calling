@@ -135,7 +135,7 @@ class _VisitorScreemState extends State<VisitorScreem>
                                 children: [
                                   CircleAvatar(
                                     radius: 55,
-                                    backgroundImage: Config.hideAds
+                                    backgroundImage: Config.showPhto
                                         ? const NetworkImage(
                                             "https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg")
                                         : NetworkImage("${data["profile"]}"),

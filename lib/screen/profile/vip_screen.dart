@@ -29,7 +29,7 @@ class _VIPScreenState extends State<VIPScreen> with WidgetsBindingObserver {
     'silver',
     'gold',
     'platinum',
-    'test',
+    // 'test',
     // 'com.video.callApp:android.test.purchased',
   ];
   late StreamSubscription<List<PurchaseDetails>> _subscription;

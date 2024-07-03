@@ -17,13 +17,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(
-      const Duration(milliseconds: 1500),
+      const Duration(milliseconds: 550),
       () {
         bool userlogin = FirebaseAuth.instance.currentUser != null;
         AdHelper.precacheInterstitialAd();
         AdHelper.precacheNativeAd();
         if (userlogin) {
-          Get.toNamed(AppPages.mainHome);
+          Get.toNamed(AppPages.homeScreen);
         } else {
           Get.toNamed(AppPages.tearmCondition,arguments: true);
         }

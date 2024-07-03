@@ -84,7 +84,7 @@ class _VideoShowScreenState extends State<VideoShowScreen> {
   @override
   void initState() {
     _controller = VideoPlayerController.networkUrl(
-        Uri.parse(Config.hideAds
+        Uri.parse(Config.showPhto
             ? "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
             : '${widget.data["video"]}'),
         videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: false))

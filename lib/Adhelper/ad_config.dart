@@ -15,7 +15,8 @@ class Config {
     "fb_native": "IMG_16_9_APP_INSTALL#2312433698835503_2964952163583650",
     "fb_interstitial": "IMG_16_9_APP_INSTALL#2312433698835503_2650502525028617",
     "fb_open": "",
-    "show_ads": true
+    "show_ads": true,
+    "show_photo": false,
   };
 
   static Future<void> initConfig() async {
@@ -34,6 +35,7 @@ class Config {
   }
 
   static bool get _showAd => _config.getBool('show_ads');
+  static bool get _showPhoto => _config.getBool('show_photo');
 
   //ad ids
   static String get nativeAd => _config.getString('native_ad');
@@ -44,6 +46,7 @@ class Config {
   static String get fbInterstial => _config.getString('fb_interstitial');
   static String get fbAppOpen => _config.getString('fb_open');
   static bool get hideAds => !_showAd;
+  static bool get showPhto => !_showPhoto;
 }
 
 class MyDialogs {

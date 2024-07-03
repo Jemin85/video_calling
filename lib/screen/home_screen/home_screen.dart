@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:intl/intl.dart';
 import 'package:video_call/Adhelper/ad_helper.dart';
+import 'package:video_call/common/msg.dart';
 import 'package:video_call/routes/app_pages.dart';
+import 'package:video_call/screen/chat_screen/chat_con.dart';
 import 'package:video_call/screen/home_screen/home_con.dart';
 import 'package:video_call/screen/profile/profile_screen.dart';
+import 'package:video_call/screen/video_reel/video_con.dart';
 import 'package:video_call/screen/video_reel/video_screen.dart';
 import '../../Adhelper/ad_config.dart';
 import '../../common/colors.dart';
@@ -19,7 +23,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
-  HomeController homeController = Get.find();
+  HomeController homeController = Get.put(HomeController());
+  ChatController chatController = Get.put(ChatController());
+  VideoController videoController = Get.put(VideoController());
   // List bottom = [Icons.home, Icons.video_call, Icons.chat, Icons.person];
 
   List pages = [
@@ -52,6 +58,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
     }
   }
+
+  List bottomIcon = [Icons.home, Icons.video_call, Icons.chat, Icons.person];
 
   final _adController = NativeAdController();
 
@@ -90,7 +98,42 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           });
                         },
                         child: const Icon(Icons.arrow_back_ios_new)),
+                    title: CustomText(
+                      text: homeController.currantIndex.value == 0
+                          ? "Hot".toUpperCase()
+                          : homeController.currantIndex.value == 2
+                              ? "Chat".toUpperCase()
+                              : "".toUpperCase(),
+                      weight: FontWeight.w700,
+                    ),
                   ),
+            bottomNavigationBar: SizedBox(
+              height: 80,
+              child: Row(
+                children: List.generate(
+                  bottomIcon.length,
+                  (index) {
+                    return Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          homeController.changeIndex(index);
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Icon(
+                            bottomIcon[index],
+                            size: 30,
+                            color: homeController.currantIndex.value == index
+                                ? greenColor
+                                : black.withOpacity(0.5),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
             body: homeController.currantIndex.value != 0
                 ? pages[homeController.currantIndex.value]
                 : SingleChildScrollView(
@@ -101,13 +144,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: List.generate(
-                              homeController.photos.length - 10,
+                              homeController.photos.length,
                               (index) {
                                 var data = homeController.photos.reversed
                                     .toList()[index];
                                 return GestureDetector(
-                                  onTap: (){
-                                    AdHelper.showInterstitialAd(onComplete: (){
+                                  onTap: () {
+                                    AdHelper.showInterstitialAd(onComplete: () {
                                       Get.toNamed(AppPages.videoReels);
                                     });
                                   },
@@ -131,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                           borderRadius:
                                               BorderRadius.circular(100),
                                           image: DecorationImage(
-                                              image: Config.hideAds
+                                              image: Config.showPhto
                                                   ? const NetworkImage(
                                                       "https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg")
                                                   : NetworkImage(
@@ -212,6 +255,24 @@ class ViewData extends StatefulWidget {
 }
 
 class _ViewDataState extends State<ViewData> {
+  HomeController homeController = Get.find();
+  int calculateAge(DateTime birthDate) {
+    DateTime currentDate = DateTime.now();
+    int age = currentDate.year - birthDate.year;
+    int month1 = currentDate.month;
+    int month2 = birthDate.month;
+    if (month2 > month1) {
+      age--;
+    } else if (month1 == month2) {
+      int day1 = currentDate.day;
+      int day2 = birthDate.day;
+      if (day2 > day1) {
+        age--;
+      }
+    }
+    return age;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -232,33 +293,67 @@ class _ViewDataState extends State<ViewData> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 image: DecorationImage(
-                    image: Config.hideAds
+                    image: Config.showPhto
                         ? const NetworkImage(
                             "https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg")
                         : NetworkImage("${widget.data["photo"]}"),
-                    fit: Config.hideAds ? BoxFit.contain : BoxFit.cover),
+                    fit: Config.showPhto ? BoxFit.contain : BoxFit.cover),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, top: 10),
-              child: CustomText(
-                text: "${widget.data["name"]}",
-                maxline: 1,
-                fontSize: 13.sp,
-                weight: FontWeight.w700,
-                color: Colors.black,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10, left: 15, right: 15),
-              child: CustomText(
-                text: "${widget.data["dob"]}",
-                fontSize: 12.sp,
-                weight: FontWeight.w700,
-                align: TextAlign.start,
-                color: Colors.black,
-              ),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, top: 10),
+                        child: CustomText(
+                          text: "${widget.data["name"]}",
+                          maxline: 1,
+                          fontSize: 13.sp,
+                          weight: FontWeight.w700,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 10, left: 15, right: 15),
+                        child: CustomText(
+                          text:
+                              "${calculateAge(DateFormat("dd-MM-yyyy").parse("${widget.data["dob"]}"))} Year", //"${widget.data["dob"]}",
+                          fontSize: 12.sp,
+                          weight: FontWeight.w700,
+                          align: TextAlign.start,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15),
+                  child: GestureDetector(
+                      onTap: () {
+                        AdHelper.showInterstitialAd(onComplete: () {
+                          if (homeController.userVipPurchased.value) {
+                            MassageBox.showMag(
+                                "Video Call Temorroty Not Available Please Try Again");
+                          } else {
+                            Get.toNamed(AppPages.vipScreen);
+                          }
+                        });
+                      },
+                      child: CircleAvatar(
+                          backgroundColor: yellowOpacity,
+                          child: Icon(
+                            Icons.video_call,
+                            color: greenColor,
+                          ))),
+                )
+              ],
+            )
           ],
         ),
       ),

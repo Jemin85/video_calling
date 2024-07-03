@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:video_call/common/colors.dart';
 import 'package:video_call/common/msg.dart';
 import 'package:video_call/routes/app_pages.dart';
@@ -45,6 +46,23 @@ class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
     }
   }
 
+  int calculateAge(DateTime birthDate) {
+    DateTime currentDate = DateTime.now();
+    int age = currentDate.year - birthDate.year;
+    int month1 = currentDate.month;
+    int month2 = birthDate.month;
+    if (month2 > month1) {
+      age--;
+    } else if (month1 == month2) {
+      int day1 = currentDate.day;
+      int day2 = birthDate.day;
+      if (day2 > day1) {
+        age--;
+      }
+    }
+    return age;
+  }
+
   @override
   Widget build(BuildContext context) {
     print("---------------${Config.hideAds}");
@@ -73,44 +91,66 @@ class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Obx(
           () {
-            return homeController.loading.value ? const SizedBox() : Padding(
-              padding: const EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  FloatingActionButton(
-                    heroTag: "1",
-                    onPressed: () {
-                      AdHelper.showInterstitialAd(onComplete: () {
-                        if (homeController.userVipPurchased.value) {
-                          MassageBox.showMag(
-                              "Video Call Temorroty Not Available Please Try Again");
-                        } else {
-                          Get.toNamed(AppPages.vipScreen);
-                        }
-                      });
-                    },
-                    backgroundColor: greenColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    child: const Icon(Icons.video_call, color: white),
-                  ),
-                  const SizedBox(width: 15),
-                  FloatingActionButton(
-                    heroTag: "2",
-                    onPressed: () {
-                      AdHelper.showInterstitialAd(onComplete: () {
-                        Get.toNamed(AppPages.showchat, arguments: userData);
-                      });
-                    },
-                    backgroundColor: greenColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    child: const Icon(Icons.chat, color: white),
-                  ),
-                ],
-              ),
-            );
+            return homeController.loading.value
+                ? const SizedBox()
+                : Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        FloatingActionButton(
+                          heroTag: "3",
+                          onPressed: () {
+                            AdHelper.showInterstitialAd(onComplete: () {
+                              Get.toNamed(AppPages.diamond,
+                                  arguments: userData);
+                            });
+                          },
+                          backgroundColor: greenColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          child: const Icon(Icons.card_giftcard, color: white),
+                        ),
+                        const SizedBox(height: 25),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            FloatingActionButton(
+                              heroTag: "1",
+                              onPressed: () {
+                                AdHelper.showInterstitialAd(onComplete: () {
+                                  if (homeController.userVipPurchased.value) {
+                                    MassageBox.showMag(
+                                        "Video Call Temorroty Not Available Please Try Again");
+                                  } else {
+                                    Get.toNamed(AppPages.vipScreen);
+                                  }
+                                });
+                              },
+                              backgroundColor: greenColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: const Icon(Icons.video_call, color: white),
+                            ),
+                            const SizedBox(width: 15),
+                            FloatingActionButton(
+                              heroTag: "2",
+                              onPressed: () {
+                                AdHelper.showInterstitialAd(onComplete: () {
+                                  Get.toNamed(AppPages.showchat,
+                                      arguments: userData);
+                                });
+                              },
+                              backgroundColor: greenColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: const Icon(Icons.chat, color: white),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ));
           },
         ),
         body: Column(
@@ -124,7 +164,7 @@ class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
                 borderRadius:
                     const BorderRadius.vertical(bottom: Radius.circular(20)),
                 image: DecorationImage(
-                    image: Config.hideAds
+                    image: Config.showPhto
                         ? const NetworkImage(
                             "https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg")
                         : NetworkImage("${userData["photo"]}"),
@@ -198,6 +238,22 @@ class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
                       ),
                       subtitle: CustomText(
                         text: "${userData["height"]}",
+                        color: black,
+                        weight: FontWeight.w600,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                     ListTile(
+                      leading: const Icon(Icons.view_agenda, color: greenColor),
+                      contentPadding: EdgeInsets.zero,
+                      title: CustomText(
+                        text: "Age",
+                        color: black.withOpacity(0.5),
+                        weight: FontWeight.w400,
+                        fontSize: 14.sp,
+                      ),
+                      subtitle: CustomText(
+                        text: "${calculateAge(DateFormat("dd-MM-yyyy").parse("${userData["dob"]}"))} Year",
                         color: black,
                         weight: FontWeight.w600,
                         fontSize: 14.sp,
