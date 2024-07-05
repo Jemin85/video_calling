@@ -93,6 +93,7 @@ class AdHelper {
           ad.show();
         },
         onAdFailedToLoad: (err) {
+          onComplete();
           log('Failed to load an interstitial ad: ${err.message}');
         },
       ),

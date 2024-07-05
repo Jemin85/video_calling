@@ -182,14 +182,14 @@ class _VideoShowScreenState extends State<VideoShowScreen> {
                                         ],
                                       ),
                                     ),
-                                    GestureDetector(
-                                      onTap: (){},
-                                      child: Icon(
-                                        Icons.send,
-                                        color: white.withOpacity(0.9),
-                                        size: 30,
-                                      ),
-                                    ),
+                                    // GestureDetector(
+                                    //   onTap: (){},
+                                    //   child: Icon(
+                                    //     Icons.send,
+                                    //     color: white.withOpacity(0.9),
+                                    //     size: 30,
+                                    //   ),
+                                    // ),
                                   ],
                                 )
 

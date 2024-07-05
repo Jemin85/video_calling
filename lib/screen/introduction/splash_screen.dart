@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:video_call/Adhelper/ad_helper.dart';
 import 'package:video_call/routes/app_pages.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,8 +19,8 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(milliseconds: 550),
       () {
         bool userlogin = FirebaseAuth.instance.currentUser != null;
-        AdHelper.precacheInterstitialAd();
-        AdHelper.precacheNativeAd();
+        // AdHelper.precacheInterstitialAd();
+        // AdHelper.precacheNativeAd();
         if (userlogin) {
           Get.toNamed(AppPages.homeScreen);
         } else {

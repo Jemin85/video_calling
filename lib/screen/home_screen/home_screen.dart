@@ -345,7 +345,7 @@ class _ViewDataState extends State<ViewData> {
                           }
                         });
                       },
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                           backgroundColor: yellowOpacity,
                           child: Icon(
                             Icons.video_call,

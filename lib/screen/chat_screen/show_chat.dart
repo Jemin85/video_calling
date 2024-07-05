@@ -135,7 +135,7 @@ class _ShowChatScreenState extends State<ShowChatScreen>
                           onTap: () {
                             if (chat.text.isNotEmpty) {
                               chatController.addData(msg: chat.text,name: "");
-                              // chat.clear();
+                              chat.clear();
                               setState(() {});
                             }
                           },

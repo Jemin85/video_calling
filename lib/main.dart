@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +12,6 @@ import 'routes/app_pages.dart';
 Future<void> firebaseMessengingHandle(RemoteMessage message) async {
   await FirebaseMessaging.instance.subscribeToTopic("all");
   await Firebase.initializeApp();
-  print("------------------${message.data}");
   NotificationService.showNotification(message);
 }
 
@@ -28,6 +28,7 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  GestureBinding.instance.resamplingEnabled = true;
   await Firebase.initializeApp(
       options: const FirebaseOptions(
           apiKey: "AIzaSyA6Vvp9xLqCe8EUNWUkBISFaj4WvrArStA",

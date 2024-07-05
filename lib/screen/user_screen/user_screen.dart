@@ -81,6 +81,7 @@ class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
           leading: GestureDetector(
               onTap: () {
                 AdHelper.showInterstitialAd(onComplete: () {
+                  print("----------------");
                   Get.back();
                 });
               },
@@ -243,7 +244,7 @@ class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
                         fontSize: 14.sp,
                       ),
                     ),
-                     ListTile(
+                    ListTile(
                       leading: const Icon(Icons.view_agenda, color: greenColor),
                       contentPadding: EdgeInsets.zero,
                       title: CustomText(
@@ -253,7 +254,8 @@ class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
                         fontSize: 14.sp,
                       ),
                       subtitle: CustomText(
-                        text: "${calculateAge(DateFormat("dd-MM-yyyy").parse("${userData["dob"]}"))} Year",
+                        text:
+                            "${calculateAge(DateFormat("dd-MM-yyyy").parse("${userData["dob"]}"))} Year",
                         color: black,
                         weight: FontWeight.w600,
                         fontSize: 14.sp,
